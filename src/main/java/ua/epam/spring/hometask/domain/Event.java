@@ -9,7 +9,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * @author Yuriy_Tkach
+ * @author Viktor Skapoushchenko
  */
 public class Event extends DomainObject {
 
