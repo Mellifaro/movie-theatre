@@ -10,7 +10,7 @@ import org.junit.Test;
 import ua.epam.spring.hometask.domain.Auditorium;
 
 /**
- * @author Yuriy_Tkach
+ * @author Viktor Skapoushchenko
  */
 public class TestAuditorium {
 	
