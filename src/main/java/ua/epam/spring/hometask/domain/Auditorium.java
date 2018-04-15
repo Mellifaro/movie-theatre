@@ -8,24 +8,26 @@ import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 /**
- * @author Yuriy_Tkach
+ * @author Viktor Skapoushchenko
  */
 public class Auditorium {
 
     private String name;
-
     private long numberOfSeats;
-
     private Set<Long> vipSeats = Collections.emptySet();
 
     public Auditorium() {
     }
 
+    public Auditorium(String name, long numberOfSeats, Set<Long> vipSeats) {
+        this.name = name;
+        this.numberOfSeats = numberOfSeats;
+        this.vipSeats = vipSeats;
+    }
+
     /**
-     * Counts how many vip seats are there in supplied <code>seats</code>
-     * 
-     * @param seats
-     *            Seats to process
+     * Counts how many vip seats are there in supplied <code>seats</code>     *
+     * @param seats Seats to process
      * @return number of vip seats in request
      */
     public long countVipSeats(Collection<Long> seats) {
@@ -59,32 +61,32 @@ public class Auditorium {
     public void setVipSeats(Set<Long> vipSeats) {
         this.vipSeats = vipSeats;
     }
+    
+    public boolean hasVipSeat(Long seat){
+        return vipSeats.contains(seat);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Auditorium that = (Auditorium) o;
+        return numberOfSeats == that.numberOfSeats &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(vipSeats, that.vipSeats);
+    }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name, numberOfSeats, vipSeats);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Auditorium other = (Auditorium) obj;
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        return true;
+    public String toString() {
+        return "Auditorium{" +
+                "name='" + name + '\'' +
+                ", numberOfSeats=" + numberOfSeats +
+                ", vipSeats=" + vipSeats +
+                '}';
     }
-
 }
