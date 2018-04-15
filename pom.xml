@@ -11,22 +11,24 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring.version>3.2.16.RELEASE</spring.version>
+        <spring.version>5.0.5.RELEASE</spring.version>
         <findbugs.version>3.0.1</findbugs.version>
         <junit.version>4.12</junit.version>
+        <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
+        <aspectj.version>1.8.13</aspectj.version>
     </properties>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <targetPath>../resources</targetPath>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
+        <!--<resources>-->
+            <!--<resource>-->
+                <!--<directory>src/main/resources</directory>-->
+                <!--<filtering>false</filtering>-->
+                <!--<targetPath>../resources</targetPath>-->
+                <!--<includes>-->
+                    <!--<include>**/*</include>-->
+                <!--</includes>-->
+            <!--</resource>-->
+        <!--</resources>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -80,7 +82,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.3</version>
+                <version>3.0.4</version>
                 <configuration>
                     <!-- Enables analysis which takes more memory but finds 
                         more bugs. If you run out of memory, changes the value of the effort element 
@@ -108,6 +110,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>${findbugs.version}</version>
@@ -119,13 +133,18 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
     </dependencies>
-    <organization>
-        <name>EPAM Systems</name>
-        <url>http://epam.com</url>
-    </organization>
-    <issueManagement>
-        <system>GIT</system>
-        <url>https://git.epam.com/yuriy_tkach/spring-core-hometask-skeleton/issues</url>
-    </issueManagement>
 </project>
