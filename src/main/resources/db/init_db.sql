@@ -35,11 +35,13 @@ CREATE TABLE dates(
 );
 
 CREATE TABLE tickets(
-  id            INTEGER PRIMARY KEY DEFAULT nextval('ticket_seq'),
-  user_id       INTEGER,
-  event_id      INTEGER,
-  date_time     TIMESTAMP,
-  seat          INTEGER,
-  price         DECIMAL,
-  discount      INTEGER
+  id                INTEGER PRIMARY KEY DEFAULT nextval('ticket_seq'),
+  user_id           INTEGER,
+  event_id          INTEGER,
+  date_time         TIMESTAMP,
+  seat              INTEGER,
+  price             DECIMAL,
+  discount          INTEGER,
+  status            VARCHAR,
+  booking_date_time TIMESTAMP DEFAULT now()
 )
