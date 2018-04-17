@@ -2,11 +2,14 @@ DELETE FROM users;
 DELETE FROM events;
 DELETE FROM dates;
 DELETE FROM tickets;
+DELETE FROM user_discounts;
+DELETE FROM total_discounts;
 
 ALTER SEQUENCE user_seq RESTART WITH 100;
 ALTER SEQUENCE event_seq RESTART WITH 100;
 ALTER SEQUENCE date_seq RESTART WITH 100;
 ALTER SEQUENCE ticket_seq RESTART WITH 100;
+ALTER SEQUENCE discount_seq RESTART WITH 100;
 
 INSERT INTO users(first_name, last_name, email, birthday)
   VALUES ('Ivan', 'Kravchuk', 'kravchukivan@gmail.com', '1985-05-01 10:00'),
@@ -24,3 +27,12 @@ INSERT INTO dates(event_date, auditorium_name, event_id)
 INSERT INTO tickets(user_id, event_id, date_time, seat, price, discount)
   VALUES (100, 100, '2018-05-05 20:45', 10, 80.00, 0),
          (101, 101, '2018-04-25 18:30', 42, 70.00, 0);
+
+INSERT INTO user_discounts(user_id, discount_type, amount)
+  VALUES  (100, 'BIRTHDAY', 0),
+          (100, 'TENTH_TICKET', 0),
+          (101, 'BIRTHDAY', 0);
+
+INSERT INTO total_discounts(discount_type, amount)
+  VALUES  ('BIRTHDAY', 0),
+          ('TENTH_TICKET', 0);

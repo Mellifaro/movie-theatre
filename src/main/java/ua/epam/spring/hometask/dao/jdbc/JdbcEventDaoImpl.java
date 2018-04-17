@@ -25,7 +25,6 @@ public class JdbcEventDaoImpl implements EventDAO {
 
     private static final BeanPropertyRowMapper<Event> EVENT_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Event.class);
 
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -42,75 +41,34 @@ public class JdbcEventDaoImpl implements EventDAO {
     }
 
     @Override
-    //todo split method
     public Optional<Event> getByName(String name) {
         List<Event> events = jdbcTemplate.query("SELECT * FROM events WHERE events.name=?", EVENT_ROW_MAPPER, name);
-        events.forEach(event -> {
-            Map<LocalDateTime, String> resSet = jdbcTemplate.query("SELECT event_date, auditorium_name FROM dates WHERE dates.event_id=?", new ResultSetExtractor<Map<LocalDateTime, String>>() {
-                @Override
-                public Map<LocalDateTime, String> extractData(ResultSet rs) throws SQLException, DataAccessException {
-                    Map<LocalDateTime, String> mapRet = new HashMap<>();
-                    while (rs.next()) {
-                        mapRet.put(rs.getTimestamp("event_date").toLocalDateTime(), rs.getString("auditorium_name"));
-                    }
-                    return mapRet;
-                }
-            }, event.getId());
-            event.setAirDates(new TreeSet<>(resSet.keySet()));
-
-            NavigableMap<LocalDateTime, Auditorium> auditoriumMap = new TreeMap<>();
-            resSet.forEach((key, value) -> {
-                try {
-                    auditoriumMap.put(key, auditoriumDAO.getByName(value).get());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            event.setAuditoriums(auditoriumMap);
-        });
+        events.forEach(this::insertAirDatesAndAuditoriums);
         return Optional.of(events.get(0));
     }
 
     @Nonnull
     @Override
     public Collection<Event> getForDateRange(LocalDateTime from, LocalDateTime to) {
-        return null;
+        List<Event> events = jdbcTemplate.query("SELECT DISTINCT * FROM events INNER JOIN dates ON events.id = dates.event_id " +
+                "WHERE dates.event_date BETWEEN  ? AND ?", EVENT_ROW_MAPPER, from, to);
+        events.forEach(this::insertAirDatesAndAuditoriums);
+        return events;
     }
 
     @Override
-    //todo split method
     public Optional<Event> getById(@Nonnull Long id) {
         List<Event> events = jdbcTemplate.query("SELECT * FROM events WHERE events.id=?", EVENT_ROW_MAPPER, id);
-        events.forEach(event -> {
-            Map<LocalDateTime, String> resSet = jdbcTemplate.query("SELECT event_date, auditorium_name FROM dates WHERE dates.event_id=?", new ResultSetExtractor<Map<LocalDateTime, String>>() {
-                @Override
-                public Map<LocalDateTime, String> extractData(ResultSet rs) throws SQLException, DataAccessException {
-                    Map<LocalDateTime, String> mapRet = new HashMap<>();
-                    while (rs.next()) {
-                        mapRet.put(rs.getTimestamp("event_date").toLocalDateTime(), rs.getString("auditorium_name"));
-                    }
-                    return mapRet;
-                }
-            }, event.getId());
-            event.setAirDates(new TreeSet<>(resSet.keySet()));
-
-            NavigableMap<LocalDateTime, Auditorium> auditoriumMap = new TreeMap<>();
-            resSet.forEach((key, value) -> {
-                try {
-                    auditoriumMap.put(key, auditoriumDAO.getByName(value).get());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            event.setAuditoriums(auditoriumMap);
-        });
+        events.forEach(this::insertAirDatesAndAuditoriums);
         return Optional.of(events.get(0));
     }
 
     @Nonnull
     @Override
     public Collection<Event> getAll() {
-        return null;
+        List<Event> events = jdbcTemplate.query("SELECT * FROM events", EVENT_ROW_MAPPER);
+        events.forEach(this::insertAirDatesAndAuditoriums);
+        return events;
     }
 
     @Override
@@ -119,7 +77,36 @@ public class JdbcEventDaoImpl implements EventDAO {
     }
 
     @Override
-    public void remove(@Nonnull Event object) {
+    public void remove(@Nonnull Event event) {
+        jdbcTemplate.update("DELETE FROM events WHERE events.id = ?", event.getId());
+    }
 
+    private void insertAirDatesAndAuditoriums(Event event){
+        NavigableMap<LocalDateTime, Auditorium> dateAuditoriums = jdbcTemplate.query("SELECT event_date, auditorium_name FROM dates WHERE dates.event_id=?", new ResultSetExtractor<NavigableMap<LocalDateTime, Auditorium>>() {
+            @Override
+            public NavigableMap<LocalDateTime, Auditorium> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                NavigableMap<LocalDateTime, Auditorium> resSet = new TreeMap<>();
+                while (rs.next()) {
+                    try {
+                        resSet.put(rs.getTimestamp("event_date").toLocalDateTime(),
+                                   auditoriumDAO.getByName(rs.getString("auditorium_name")).get());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                }
+                }
+                return resSet;
+            }
+        }, event.getId());
+        event.setAuditoriums(dateAuditoriums);
+        Objects.requireNonNull(dateAuditoriums);
+        event.setAirDates(new TreeSet<>(dateAuditoriums.keySet()));
+    }
+
+    private void saveAirDatesAndAuditorims(Event event){
+        NavigableMap<LocalDateTime, Auditorium> auditoriumMap = event.getAuditoriums();
+        jdbcTemplate.update("DELETE * FROM dates WHERE dates.event_id=?", event.getId());
+        auditoriumMap.forEach((date, auditorium) -> {
+            jdbcTemplate.update("INSERT INTO dates(event_date, auditorium_name, event_id) VALUES (?, ?, ?)", date, auditorium.getName(), event.getId());
+        });
     }
 }
