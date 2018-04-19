@@ -2,6 +2,7 @@ package ua.epam.spring.hometask.dao.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -13,6 +14,7 @@ import ua.epam.spring.hometask.dao.AuditoriumDAO;
 import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.exceptions.NotFoundException;
 
 import javax.annotation.Nonnull;
 import javax.sql.DataSource;
@@ -47,9 +49,13 @@ public class JdbcEventDaoImpl implements EventDAO {
 
     @Override
     public Optional<Event> getByName(String name) {
-        List<Event> events = jdbcTemplate.query("SELECT * FROM events WHERE events.name=?", EVENT_ROW_MAPPER, name);
-        events.forEach(this::insertAirDatesAndAuditoriums);
-        return Optional.of(events.get(0));
+        try {
+            Event event = jdbcTemplate.queryForObject("SELECT * FROM events WHERE events.name=?", EVENT_ROW_MAPPER, name);
+            insertAirDatesAndAuditoriums(event);
+            return Optional.of(event);
+        }catch (EmptyResultDataAccessException ex){
+            return Optional.empty();
+        }
     }
 
     @Nonnull
@@ -63,9 +69,13 @@ public class JdbcEventDaoImpl implements EventDAO {
 
     @Override
     public Optional<Event> getById(@Nonnull Long id) {
-        List<Event> events = jdbcTemplate.query("SELECT * FROM events WHERE events.id=?", EVENT_ROW_MAPPER, id);
-        events.forEach(this::insertAirDatesAndAuditoriums);
-        return Optional.of(events.get(0));
+        try {
+            Event event = jdbcTemplate.queryForObject("SELECT * FROM events WHERE events.id=?", EVENT_ROW_MAPPER, id);
+            insertAirDatesAndAuditoriums(event);
+            return Optional.of(event);
+        }catch (EmptyResultDataAccessException ex){
+            return Optional.empty();
+        }
     }
 
     @Nonnull

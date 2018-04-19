@@ -1,4 +1,4 @@
-package ua.epam.spring.hometask.domain.services.jdbc;
+package ua.epam.spring.hometask.domain.services.jdbc.strategies;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -14,6 +14,7 @@ import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.domain.testdata.TestData;
 import ua.epam.spring.hometask.service.user.UserService;
+import ua.epam.spring.hometask.service.user.UserServiceImpl;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -33,7 +34,7 @@ import static ua.epam.spring.hometask.domain.testdata.TestData.theLordOfRings;
 public class JdbcUserServiceTest {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Test
     public void testGetByIdSuccess(){

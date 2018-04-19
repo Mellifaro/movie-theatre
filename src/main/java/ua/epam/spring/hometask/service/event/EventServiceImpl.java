@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.exceptions.NotFoundException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,7 +19,7 @@ public class EventServiceImpl implements EventService {
     @Nullable
     @Override
     public Event getByName(@Nonnull String name) {
-        return eventDAO.getByName(name).get();
+        return eventDAO.getByName(name).orElseThrow(() -> new NotFoundException("Event with name: " + name + "not found"));
     }
 
     @Override
@@ -33,8 +34,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getById(@Nonnull Long id) {
-        return null;
-//        return eventDAO.getById(id);
+        return eventDAO.getById(id).orElseThrow(() -> new NotFoundException("Event with id: " + id + "not found"));
     }
 
     @Nonnull
