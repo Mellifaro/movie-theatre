@@ -14,8 +14,8 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
     private long seat;
     private double price;
     private int discount;
-    private DiscountType discountType;
-    private LocalDateTime bookingDateTime;
+    private DiscountType discountType = DiscountType.NONE;
+    private LocalDateTime bookingDateTime = LocalDateTime.now();
 
     public Ticket() {
     }

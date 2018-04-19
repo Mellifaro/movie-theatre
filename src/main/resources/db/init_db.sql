@@ -46,7 +46,7 @@ CREATE TABLE tickets(
   seat              INTEGER NOT NULL,
   price             DECIMAL NOT NULL,
   discount          INTEGER DEFAULT 0,
-  discount_type     VARCHAR DEFAULT NULL,
+  discount_type     VARCHAR DEFAULT 'NONE',
   booking_date_time TIMESTAMP DEFAULT now(),
   FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE CASCADE
 );

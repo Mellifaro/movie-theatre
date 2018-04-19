@@ -9,7 +9,6 @@ ALTER SEQUENCE user_seq RESTART WITH 100;
 ALTER SEQUENCE event_seq RESTART WITH 100;
 ALTER SEQUENCE date_seq RESTART WITH 100;
 ALTER SEQUENCE ticket_seq RESTART WITH 100;
-ALTER SEQUENCE discount_seq RESTART WITH 100;
 
 INSERT INTO users(first_name, last_name, email, birthday)
   VALUES ('Ivan', 'Kravchuk', 'kravchukivan@gmail.com', '1985-05-01 10:00'),

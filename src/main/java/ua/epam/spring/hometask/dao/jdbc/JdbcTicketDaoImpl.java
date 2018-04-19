@@ -10,11 +10,13 @@ import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.dao.TicketDAO;
 import ua.epam.spring.hometask.domain.DiscountType;
 import ua.epam.spring.hometask.domain.Ticket;
+import ua.epam.spring.hometask.util.LocalDateFormatter;
 
 import javax.annotation.Nonnull;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -70,12 +72,12 @@ public class JdbcTicketDaoImpl implements TicketDAO {
                 .addValue("id", ticket.getId())
                 .addValue("user_id", ticket.getUserId())
                 .addValue("event_id", ticket.getEventId())
-                .addValue("date_time", ticket.getDateTime())
+                .addValue("date_time", Timestamp.valueOf(ticket.getDateTime()))
                 .addValue("seat", ticket.getSeat())
                 .addValue("price", ticket.getPrice())
                 .addValue("discount", ticket.getDiscount())
-                .addValue("discount_type", ticket.getDiscountType())
-                .addValue("booking_date_time", ticket.getBookingDateTime());
+                .addValue("discount_type", ticket.getDiscountType().toString())
+                .addValue("booking_date_time", Timestamp.valueOf(ticket.getBookingDateTime()));
 
         if(ticket.isNew()){
             Number newId = insertTicket.executeAndReturnKey(map);
@@ -106,7 +108,7 @@ public class JdbcTicketDaoImpl implements TicketDAO {
             ticket.setPrice(rs.getDouble("price"));
             ticket.setDiscount(rs.getInt("discount"));
             ticket.setDiscountType(DiscountType.valueOf(rs.getString("discount_type")));
-            ticket.setDateTime(rs.getTimestamp("booking_date_time").toLocalDateTime());
+            ticket.setBookingDateTime(rs.getTimestamp("booking_date_time").toLocalDateTime());
             return ticket;
         }
     }
