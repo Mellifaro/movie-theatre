@@ -13,9 +13,16 @@ import static org.junit.Assert.*;
 import static ua.epam.spring.hometask.domain.testdata.TestData.*;
 
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.domain.EventRating;
+import ua.epam.spring.hometask.domain.testdata.TestData;
 import ua.epam.spring.hometask.exceptions.NotFoundException;
 import ua.epam.spring.hometask.service.event.EventService;
 import ua.epam.spring.hometask.service.event.EventServiceImpl;
+
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Viktor_Skapoushchenk on 4/19/2018.
@@ -58,5 +65,49 @@ public class JdbcEventServiceTest {
     @Test(expected = NotFoundException.class)
     public void testGetNotExistingEventByName(){
         Event event = eventService.getByName("My Test");
+    }
+
+    @Test
+    public void testGetAll(){
+        Collection<Event> events = eventService.getAll();
+        assertEquals(2, events.size());
+        assertTrue(events.contains(theLordOfRings));
+        assertTrue(events.contains(scaryMovie));
+    }
+
+    @Test
+    public void testRemoveEvent(){
+        Collection<Event> beforeRemoving = eventService.getAll();
+        eventService.remove(scaryMovie);
+        Collection<Event> afterRemoving = eventService.getAll();
+
+        assertEquals(beforeRemoving.size() - 1, afterRemoving.size());
+        assertTrue(beforeRemoving.contains(scaryMovie));
+        assertFalse(afterRemoving.contains(scaryMovie));
+    }
+
+    @Test
+    public void testSaveNewEvent(){
+        Event event = new Event("test", 25.00, EventRating.HIGH);
+        event.addAirDateTime(LocalDateTime.of(2019, 11, 10, 10, 30));
+        event.addAirDateTime(LocalDateTime.of(2019, 11, 10, 10, 30), redAuditorium);
+        eventService.save(event);
+        assertEquals(event, eventService.getByName("test"));
+    }
+
+    @Test
+    public void testUpdateExistingEvent(){
+        Event event = new Event("test", 25.00, EventRating.HIGH);
+        event = eventService.save(event);
+
+        event.setRating(EventRating.LOW);
+        event.setBasePrice(30.00);
+        event.addAirDateTime(LocalDateTime.of(2019, 11, 10, 10, 15), redAuditorium);
+        eventService.save(event);
+
+        Event result = eventService.getByName("test");
+        assertEquals(EventRating.LOW, result.getRating());
+        assertEquals(30.00, result.getBasePrice(), 0.01);
+        assertEquals(1, result.getAirDates().size());
     }
 }

@@ -21,6 +21,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -92,7 +93,7 @@ public class JdbcEventDaoImpl implements EventDAO {
                 .addValue("id", event.getId())
                 .addValue("name", event.getName())
                 .addValue("base_price", event.getBasePrice())
-                .addValue("rating", event.getRating());
+                .addValue("rating", event.getRating().toString());
         if(event.isNew()){
             Number newId = insertEvent.executeAndReturnKey(map);
             event.setId(newId.longValue());
@@ -132,9 +133,9 @@ public class JdbcEventDaoImpl implements EventDAO {
 
     private void saveAirDatesAndAuditorims(Event event){
         NavigableMap<LocalDateTime, Auditorium> auditoriumMap = event.getAuditoriums();
-        jdbcTemplate.update("DELETE * FROM dates WHERE dates.event_id=?", event.getId());
+        jdbcTemplate.update("DELETE FROM dates WHERE dates.event_id=?", event.getId());
         auditoriumMap.forEach((date, auditorium) -> {
-            jdbcTemplate.update("INSERT INTO dates(event_date, auditorium_name, event_id) VALUES (?, ?, ?)", date, auditorium.getName(), event.getId());
+            jdbcTemplate.update("INSERT INTO dates(event_date, auditorium_name, event_id) VALUES (?, ?, ?)", Timestamp.valueOf(date), auditorium.getName(), event.getId());
         });
     }
 }
