@@ -8,13 +8,11 @@ DROP SEQUENCE IF EXISTS user_seq CASCADE;
 DROP SEQUENCE IF EXISTS event_seq CASCADE;
 DROP SEQUENCE IF EXISTS date_seq CASCADE;
 DROP SEQUENCE IF EXISTS ticket_seq CASCADE;
-DROP SEQUENCE IF EXISTS discount_seq CASCADE;
 
 CREATE SEQUENCE user_seq START 100;
 CREATE SEQUENCE event_seq START 100;
 CREATE SEQUENCE date_seq START 100;
 CREATE SEQUENCE ticket_seq START 100;
-CREATE SEQUENCE discount_seq START 100;
 
 CREATE TABLE users(
   id            INTEGER PRIMARY KEY DEFAULT nextval('user_seq'),
@@ -54,7 +52,6 @@ CREATE TABLE tickets(
 );
 
 CREATE TABLE user_discounts(
-  id                INTEGER PRIMARY KEY DEFAULT nextval('discount_seq'),
   user_id           INTEGER NOT NULL,
   discount_type     VARCHAR NOT NULL,
   amount            INTEGER DEFAULT NULL

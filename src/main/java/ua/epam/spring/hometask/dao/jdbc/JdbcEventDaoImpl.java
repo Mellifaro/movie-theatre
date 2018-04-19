@@ -5,6 +5,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.dao.AuditoriumDAO;
@@ -27,6 +29,9 @@ public class JdbcEventDaoImpl implements EventDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
     private AuditoriumDAO auditoriumDAO;
@@ -72,8 +77,21 @@ public class JdbcEventDaoImpl implements EventDAO {
     }
 
     @Override
-    public Event save(@Nonnull Event object) {
-        return null;
+    public Event save(@Nonnull Event event) {
+        MapSqlParameterSource map = new MapSqlParameterSource()
+                .addValue("id", event.getId())
+                .addValue("name", event.getName())
+                .addValue("base_price", event.getBasePrice())
+                .addValue("rating", event.getRating());
+        if(event.isNew()){
+            Number newId = insertEvent.executeAndReturnKey(map);
+            event.setId(newId.longValue());
+        }else{
+            namedParameterJdbcTemplate.update("UPDATE events SET name=:name, base_price=:base_price, " +
+                    "rating=:rating WHERE id=:id", map);
+        }
+        saveAirDatesAndAuditorims(event);
+        return event;
     }
 
     @Override

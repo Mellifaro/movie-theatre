@@ -1,7 +1,7 @@
 package ua.epam.spring.hometask.domain;
 
 /**
- * @author Yuriy_Tkach
+ * @author Viktor Skapoushchenko
  */
 public class DomainObject {
 
@@ -15,4 +15,10 @@ public class DomainObject {
         this.id = id;
     }
 
+    /**
+     * @return true if object id equals null
+     */
+    public boolean isNew(){
+        return id == null;
+    }
 }

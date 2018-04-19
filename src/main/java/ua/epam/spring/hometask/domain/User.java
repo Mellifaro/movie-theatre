@@ -66,10 +66,6 @@ public class User extends DomainObject {
         this.tickets = tickets;
     }
 
-    public boolean isNew(){
-        return getId() == null;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

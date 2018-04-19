@@ -1,15 +1,14 @@
 package ua.epam.spring.hometask.dao.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.dao.TicketDAO;
-import ua.epam.spring.hometask.dao.UserDAO;
+import ua.epam.spring.hometask.domain.DiscountType;
 import ua.epam.spring.hometask.domain.Ticket;
 
 import javax.annotation.Nonnull;
@@ -22,22 +21,19 @@ import java.util.*;
 @Repository
 public class JdbcTicketDaoImpl implements TicketDAO {
 
-    private static final BeanPropertyRowMapper<Ticket> TICKET_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Ticket.class);
+    private static final RowMapper<Ticket> TICKET_ROW_MAPPER = new TicketRowMapper();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private UserDAO userDAO;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Autowired
-    private EventDAO eventDao;
-
-    private SimpleJdbcInsert insertEvent;
+    private SimpleJdbcInsert insertTicket;
 
     @Autowired
     public JdbcTicketDaoImpl(DataSource dataSource){
-        insertEvent = new SimpleJdbcInsert(dataSource)
+        insertTicket = new SimpleJdbcInsert(dataSource)
                 .withTableName("tickets")
                 .usingGeneratedKeyColumns("id");
     }
@@ -58,37 +54,60 @@ public class JdbcTicketDaoImpl implements TicketDAO {
 
     @Override
     public Optional<Ticket> getById(@Nonnull Long id) {
-        Ticket ticket = jdbcTemplate.query("SELECT * FROM tickets WHERE tickets.id=?", new ResultSetExtractor<Ticket>(){
-            @Override
-            public Ticket extractData(ResultSet rs) throws SQLException, DataAccessException {
-                Ticket ticket = new Ticket();
-                while (rs.next()) {
-                    ticket.setId(rs.getLong("id"));
-                    ticket.setDateTime(rs.getTimestamp("date_time").toLocalDateTime());
-                    ticket.setSeat(rs.getLong("seat"));
-//                    ticket.setUser(userDAO.getById(rs.getLong("user_id")).get());
-//                    ticket.setEvent(eventDao.getById(rs.getLong("event_id")).get());
-                }
-
-                return ticket;
-            }
-        }, id);
+        Ticket ticket = jdbcTemplate.queryForObject("SELECT * FROM tickets WHERE tickets.id=?", TICKET_ROW_MAPPER, id);
         return Optional.ofNullable(ticket);
     }
 
     @Nonnull
     @Override
     public Collection<Ticket> getAll() {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM tickets", TICKET_ROW_MAPPER);
     }
 
     @Override
-    public Ticket save(@Nonnull Ticket object) {
-        return null;
+    public Ticket save(@Nonnull Ticket ticket) {
+        MapSqlParameterSource map = new MapSqlParameterSource()
+                .addValue("id", ticket.getId())
+                .addValue("user_id", ticket.getUserId())
+                .addValue("event_id", ticket.getEventId())
+                .addValue("date_time", ticket.getDateTime())
+                .addValue("seat", ticket.getSeat())
+                .addValue("price", ticket.getPrice())
+                .addValue("discount", ticket.getDiscount())
+                .addValue("discount_type", ticket.getDiscountType())
+                .addValue("booking_date_time", ticket.getBookingDateTime());
+
+        if(ticket.isNew()){
+            Number newId = insertTicket.executeAndReturnKey(map);
+            ticket.setId(newId.longValue());
+        }else{
+            namedParameterJdbcTemplate.update("UPDATE tickets SET user_id=:user_id, event_id=:event_id, " +
+                    "date_time=:date_time, seat=:seat, price=:price, discount=:discount," +
+                    "discount_type=:discount_type, booking_date_time=:booking_date_time WHERE id=:id", map);
+        }
+        return ticket;
     }
 
     @Override
-    public void remove(@Nonnull Ticket object) {
+    public void remove(@Nonnull Ticket ticket) {
+        jdbcTemplate.update("DELETE FROM tickets WHERE tickets.id=?", ticket.getId());
+    }
 
+    static class TicketRowMapper implements RowMapper<Ticket>{
+
+        @Override
+        public Ticket mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Ticket ticket = new Ticket();
+            ticket.setId(rs.getLong("id"));
+            ticket.setUserId(rs.getLong("user_id"));
+            ticket.setEventId(rs.getLong("event_id"));
+            ticket.setDateTime(rs.getTimestamp("date_time").toLocalDateTime());
+            ticket.setSeat(rs.getLong("seat"));
+            ticket.setPrice(rs.getDouble("price"));
+            ticket.setDiscount(rs.getInt("discount"));
+            ticket.setDiscountType(DiscountType.valueOf(rs.getString("discount_type")));
+            ticket.setDateTime(rs.getTimestamp("booking_date_time").toLocalDateTime());
+            return ticket;
+        }
     }
 }
