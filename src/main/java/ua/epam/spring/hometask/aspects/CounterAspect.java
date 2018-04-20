@@ -33,17 +33,17 @@ public class CounterAspect {
     //todo test method
     @AfterReturning(pointcut = "allGetTicketsPriceMethods()")
     public void incrementCountPricesWereQueried(JoinPoint joinPoint){
-        Event event = (Event)joinPoint.getArgs()[0];
-        EventInfo eventInfo = insertOrGetEventInfoFromMap(event);
-        eventInfo.incrementCountPricesWereQueried();
+//        Event event = (Event)joinPoint.getArgs()[0];
+//        EventInfo eventInfo = insertOrGetEventInfoFromMap(event);
+//        eventInfo.incrementCountPricesWereQueried();
     }
 
     //todo test method
     @AfterReturning(pointcut = "allBookTicketsMethods()")
     public void incrementCountTicketsWereBooked(JoinPoint joinPoint){
-        Event event = (Event)joinPoint.getArgs()[0];
-        EventInfo eventInfo = insertOrGetEventInfoFromMap(event);
-        eventInfo.incrementCountTicketsWereBooked();
+//        Event event = (Event)joinPoint.getArgs()[0];
+//        EventInfo eventInfo = insertOrGetEventInfoFromMap(event);
+//        eventInfo.incrementCountTicketsWereBooked();
     }
 
     private EventInfo insertOrGetEventInfoFromMap(Event event){

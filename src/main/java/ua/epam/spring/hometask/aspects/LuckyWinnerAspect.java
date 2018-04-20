@@ -7,13 +7,14 @@ import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.domain.DiscountType;
 import ua.epam.spring.hometask.domain.Ticket;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 import java.util.Set;
 
 @Aspect
 @Component
 public class LuckyWinnerAspect {
-    private static final Integer LUCKY_WINNER_CHANCE = 500;
+    private Integer LUCKY_WINNER_CHANCE = 500;
 
     @Before("execution(* *.bookTickets(..))&& within(ua.epam.spring.hometask.service.booking.BookingServiceImpl)")
     public void checkLucky(JoinPoint joinPoint){
@@ -28,5 +29,9 @@ public class LuckyWinnerAspect {
             ticket.setDiscount(100);
             ticket.setDiscountType(DiscountType.LUCKY_WINNER);
         }
+    }
+
+    public void setLuckyWinnerChance(@Nonnull Integer luckyWinnerChance) {
+        LUCKY_WINNER_CHANCE = luckyWinnerChance;
     }
 }

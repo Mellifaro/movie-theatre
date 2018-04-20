@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -13,15 +12,13 @@ import ua.epam.spring.hometask.config.AppConfig;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.domain.testdata.TestData;
-import ua.epam.spring.hometask.service.user.UserService;
+import ua.epam.spring.hometask.exceptions.NotFoundException;
 import ua.epam.spring.hometask.service.user.UserServiceImpl;
 
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.NavigableSet;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 import static ua.epam.spring.hometask.domain.testdata.TestData.adminTicket;
@@ -43,7 +40,7 @@ public class JdbcUserServiceTest {
         assertEquals(1, user.getTickets().size());
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test(expected = NotFoundException.class)
     public void testGetByIdNotFoundFail(){
         User user = userService.getById(1L);
     }
@@ -55,7 +52,7 @@ public class JdbcUserServiceTest {
         assertEquals(1, user.getTickets().size());
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test(expected = NotFoundException.class)
     public void testGetUserByEmailNotFoundFail(){
         User user = userService.getUserByEmail("test@i.ua");
     }
@@ -68,7 +65,7 @@ public class JdbcUserServiceTest {
         assertTrue(users.contains(TestData.user));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testSaveNullUserFail(){
         userService.save(null);
     }

@@ -14,10 +14,8 @@ import static ua.epam.spring.hometask.domain.testdata.TestData.*;
 
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.EventRating;
-import ua.epam.spring.hometask.domain.testdata.TestData;
 import ua.epam.spring.hometask.exceptions.NotFoundException;
 import ua.epam.spring.hometask.service.event.EventService;
-import ua.epam.spring.hometask.service.event.EventServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -47,12 +45,12 @@ public class JdbcEventServiceTest {
         assertEquals(event, theLordOfRings);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testGetByIdNull(){
         Event event = eventService.getById(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testGetByNameNull(){
         Event event = eventService.getByName(null);
     }

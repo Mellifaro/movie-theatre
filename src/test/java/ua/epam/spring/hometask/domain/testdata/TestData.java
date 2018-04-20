@@ -65,5 +65,12 @@ public class TestData {
         //creating tickets
         adminTicket = new Ticket(admin.getId(), theLordOfRings.getId(), firstEventFirstDate,10L);
         userTicket = new Ticket(user.getId(), scaryMovie.getId(), secondEventFirstDate, 42L);
+
+        admin.setTickets(new TreeSet<Ticket>(){{
+            add(adminTicket);
+        }});
+        user.setTickets(new TreeSet<Ticket>(){{
+            add(userTicket);
+        }});
     }
 }
