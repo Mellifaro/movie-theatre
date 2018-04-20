@@ -9,6 +9,7 @@ import ua.epam.spring.hometask.exceptions.NotFoundException;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -19,11 +20,13 @@ public class EventServiceImpl implements EventService {
     @Nullable
     @Override
     public Event getByName(@Nonnull String name) {
+        Objects.requireNonNull(name);
         return eventDAO.getByName(name).orElseThrow(() -> new NotFoundException("Event with name: " + name + "not found"));
     }
 
     @Override
     public Event save(@Nonnull Event event) {
+        Objects.requireNonNull(event);
         return eventDAO.save(event);
     }
 
@@ -34,6 +37,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getById(@Nonnull Long id) {
+        Objects.requireNonNull(id);
         return eventDAO.getById(id).orElseThrow(() -> new NotFoundException("Event with id: " + id + "not found"));
     }
 

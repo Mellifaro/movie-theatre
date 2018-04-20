@@ -11,6 +11,7 @@ import ua.epam.spring.hometask.exceptions.NotFoundException;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.NavigableSet;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,15 +50,18 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User save(@Nonnull User user) {
+        Objects.requireNonNull(user);
         return userDAO.save(user);
     }
 
     @Override
     public void remove(@Nonnull User user) {
+        Objects.requireNonNull(user);
         userDAO.remove(user);
     }
 
     private User insertTickets(User user){
+        Objects.requireNonNull(user);
         NavigableSet<Ticket> tickets = ticketDAO.getTicketsByUserId(user.getId());
         user.setTickets(tickets);
         return user;

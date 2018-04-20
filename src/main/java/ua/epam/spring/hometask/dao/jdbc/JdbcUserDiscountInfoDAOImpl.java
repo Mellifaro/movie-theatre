@@ -16,27 +16,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-
+/**
+ * @author Viktor Skapoushchenko
+ */
 @Repository
 public class JdbcUserDiscountInfoDAOImpl implements UserDiscountInfoDAO {
 
     private static final BeanPropertyRowMapper<UserDiscountInfo> ROW_MAPPER = BeanPropertyRowMapper.newInstance(UserDiscountInfo.class);
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public UserDiscountInfo getByUserId(@Nonnull Long userId) {
+    public Optional<UserDiscountInfo> getByUserId(@Nonnull Long userId) {
         UserDiscountInfo userDiscountInfo = new UserDiscountInfo();
         userDiscountInfo.setUserId(userId);
         insertDiscountMap(userDiscountInfo);
-        return userDiscountInfo;
+        return Optional.of(userDiscountInfo);
     }
 
     @Override
     public UserDiscountInfo save(@Nonnull UserDiscountInfo userDiscountInfo) {
-        Long userId= userDiscountInfo.getUserId();
+        Long userId = userDiscountInfo.getUserId();
         jdbcTemplate.update("DELETE FROM user_discounts WHERE user_id=?", userId);
         userDiscountInfo.getDiscountMap().forEach(((discountName, amount) -> {
             jdbcTemplate.update("INSERT INTO user_discounts(user_id, discount_type, amount) " +
@@ -64,5 +66,11 @@ public class JdbcUserDiscountInfoDAOImpl implements UserDiscountInfoDAO {
                 return resSet;
             }
         }, discountInfo.getUserId());
+        discountInfo.setDiscountMap(discountMap);
+    }
+
+    @Autowired
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 }

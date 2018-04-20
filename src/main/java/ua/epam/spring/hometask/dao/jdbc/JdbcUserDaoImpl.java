@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.dao.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,20 +18,17 @@ import javax.annotation.Nonnull;
 import javax.sql.DataSource;
 import java.util.*;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
 @Repository
 public class JdbcUserDaoImpl implements UserDAO {
 
     private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    @Autowired
     private TicketDAO ticketDAO;
-
     private SimpleJdbcInsert insertUser;
 
     @Autowired
@@ -42,16 +40,24 @@ public class JdbcUserDaoImpl implements UserDAO {
 
     @Override
     public Optional<User> getById(@Nonnull Long id) {
-        User user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE users.id=?", ROW_MAPPER, id);
-        insertTickets(user);
-        return Optional.ofNullable(user);
+        try {
+            User user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE users.id=?", ROW_MAPPER, id);
+            insertTickets(user);
+            return Optional.of(user);
+        }catch (EmptyResultDataAccessException ex){
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-        User user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE users.email=?", ROW_MAPPER, email);
-        insertTickets(user);
-        return Optional.ofNullable(user);
+        try {
+            User user = jdbcTemplate.queryForObject("SELECT * FROM users WHERE users.email=?", ROW_MAPPER, email);
+            insertTickets(user);
+            return Optional.of(user);
+        }catch (EmptyResultDataAccessException ex){
+            return Optional.empty();
+        }
     }
 
     @Nonnull
@@ -64,9 +70,6 @@ public class JdbcUserDaoImpl implements UserDAO {
 
     @Override
     public User save(@Nonnull User user) {
-        if(user == null){
-            throw new IllegalArgumentException("User can't be null");
-        }
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", user.getId())
                 .addValue("first_name", user.getFirstName())
@@ -106,5 +109,20 @@ public class JdbcUserDaoImpl implements UserDAO {
 
         }).forEach(ticketDAO::remove);
         ticketsToUpdate.forEach(ticketDAO::save);
+    }
+
+    @Autowired
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Autowired
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
+    @Autowired
+    public void setTicketDAO(TicketDAO ticketDAO) {
+        this.ticketDAO = ticketDAO;
     }
 }
