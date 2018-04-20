@@ -20,9 +20,7 @@ import ua.epam.spring.hometask.service.booking.BookingService;
 
 import java.time.LocalDate;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -49,7 +47,6 @@ public class JdbcBookingServiceTest {
 
     @Test
     public void testGetTicketsPrice(){
-        admin.setBirthday(LocalDate.now().minusMonths(1));
         Set<Ticket> tickets = bookingService.getTicketsFromSeats(theLordOfRings, firstEventFirstDate, admin,
                 Stream.of(12L, 21L, 22L, 23L, 24L, 25L, 26L, 27L, 28L, 29L).collect(Collectors.toSet()));
         Double finalPrice = bookingService.getTicketsPrice(tickets);
