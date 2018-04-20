@@ -36,6 +36,7 @@ public class TenTicketsStrategy implements DiscountStrategy{
                 ticket.setDiscount(DISCOUNT_FOR_TENTH_TICKET);
                 double price = ticket.getPrice() *(100 - DISCOUNT_FOR_TENTH_TICKET) / 100;
                 ticket.setPrice(price);
+                ticket.setDiscountType(DISCOUNT_TYPE);
             }
         }
         return tickets;

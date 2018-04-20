@@ -40,6 +40,7 @@ public class BirthdayStrategy implements DiscountStrategy {
             ticket.setDiscount(DISCOUNT);
             double price = ticket.getPrice() * (100 - DISCOUNT) / 100;
             ticket.setPrice(price);
+            ticket.setDiscountType(DISCOUNT_TYPE);
         });
         return tickets;
     }
