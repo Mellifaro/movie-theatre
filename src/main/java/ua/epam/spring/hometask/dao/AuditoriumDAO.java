@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
 public interface AuditoriumDAO{
 
     Optional<Auditorium> getByName(String name) throws IOException;

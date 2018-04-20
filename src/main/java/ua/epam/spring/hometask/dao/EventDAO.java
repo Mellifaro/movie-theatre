@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
 public interface EventDAO extends BaseDAO<Event> {
 
     Optional<Event> getByName(String name);

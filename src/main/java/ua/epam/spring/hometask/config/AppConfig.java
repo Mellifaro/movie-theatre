@@ -10,6 +10,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
+
 @Configuration
 @PropertySource(
         value = {"classpath:database.properties"}

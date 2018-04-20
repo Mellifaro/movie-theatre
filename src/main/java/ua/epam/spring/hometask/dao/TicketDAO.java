@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.util.NavigableSet;
 import java.util.Set;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
 public interface TicketDAO extends BaseDAO<Ticket> {
 
     @Nonnull

@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
 @Repository
 public class PropAuditoriumDaoImpl implements AuditoriumDAO {
 

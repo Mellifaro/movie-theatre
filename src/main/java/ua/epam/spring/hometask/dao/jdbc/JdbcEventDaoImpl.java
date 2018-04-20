@@ -25,20 +25,17 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
 @Repository
 public class JdbcEventDaoImpl implements EventDAO {
 
     private static final BeanPropertyRowMapper<Event> EVENT_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Event.class);
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    @Autowired
     private AuditoriumDAO auditoriumDAO;
-
     private SimpleJdbcInsert insertEvent;
 
     @Autowired
@@ -137,5 +134,20 @@ public class JdbcEventDaoImpl implements EventDAO {
         auditoriumMap.forEach((date, auditorium) -> {
             jdbcTemplate.update("INSERT INTO dates(event_date, auditorium_name, event_id) VALUES (?, ?, ?)", Timestamp.valueOf(date), auditorium.getName(), event.getId());
         });
+    }
+
+    @Autowired
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Autowired
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
+    @Autowired
+    public void setAuditoriumDAO(AuditoriumDAO auditoriumDAO) {
+        this.auditoriumDAO = auditoriumDAO;
     }
 }

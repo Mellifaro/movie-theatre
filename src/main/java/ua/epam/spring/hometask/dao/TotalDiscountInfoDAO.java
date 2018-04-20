@@ -2,9 +2,14 @@ package ua.epam.spring.hometask.dao;
 
 import ua.epam.spring.hometask.domain.TotalDiscountInfo;
 
+import java.util.Optional;
+
+/**
+ * @author Viktor Skapoushchenko
+ */
 public interface TotalDiscountInfoDAO {
 
-    TotalDiscountInfo getByDiscountName(String discountName);
+    Optional<TotalDiscountInfo> getByDiscountName(String discountName);
 
     TotalDiscountInfo save(TotalDiscountInfo discountInfo);
 

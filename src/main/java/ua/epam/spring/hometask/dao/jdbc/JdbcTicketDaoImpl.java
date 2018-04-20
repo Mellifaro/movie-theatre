@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.dao.TicketDAO;
 import ua.epam.spring.hometask.domain.DiscountType;
 import ua.epam.spring.hometask.domain.Ticket;
-import ua.epam.spring.hometask.util.LocalDateFormatter;
 
 import javax.annotation.Nonnull;
 import javax.sql.DataSource;
@@ -20,17 +19,16 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
 @Repository
 public class JdbcTicketDaoImpl implements TicketDAO {
 
     private static final RowMapper<Ticket> TICKET_ROW_MAPPER = new TicketRowMapper();
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
     private SimpleJdbcInsert insertTicket;
 
     @Autowired
@@ -50,14 +48,15 @@ public class JdbcTicketDaoImpl implements TicketDAO {
     @Nonnull
     @Override
     public Set<Ticket> getPurchasedTicketsForEvent(Long eventId, LocalDateTime dateTime) {
-        List<Ticket> tickets = jdbcTemplate.query("SELECT * FROM tickets WHERE tickets.event_id=? AND tickets.date_time=?", TICKET_ROW_MAPPER, eventId, dateTime);
+        List<Ticket> tickets = jdbcTemplate.query("SELECT * FROM tickets WHERE tickets.event_id=? AND tickets.date_time=?", TICKET_ROW_MAPPER,
+                eventId, Timestamp.valueOf(dateTime));
         return new TreeSet<>(tickets);
     }
 
     @Override
     public Optional<Ticket> getById(@Nonnull Long id) {
         Ticket ticket = jdbcTemplate.queryForObject("SELECT * FROM tickets WHERE tickets.id=?", TICKET_ROW_MAPPER, id);
-        return Optional.ofNullable(ticket);
+        return Optional.of(ticket);
     }
 
     @Nonnull
@@ -95,7 +94,17 @@ public class JdbcTicketDaoImpl implements TicketDAO {
         jdbcTemplate.update("DELETE FROM tickets WHERE tickets.id=?", ticket.getId());
     }
 
-    static class TicketRowMapper implements RowMapper<Ticket>{
+    @Autowired
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Autowired
+    public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
+    private static class TicketRowMapper implements RowMapper<Ticket>{
 
         @Override
         public Ticket mapRow(ResultSet rs, int rowNum) throws SQLException {

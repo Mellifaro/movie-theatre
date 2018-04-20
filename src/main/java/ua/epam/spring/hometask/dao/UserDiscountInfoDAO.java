@@ -4,10 +4,14 @@ import com.sun.org.apache.xpath.internal.operations.String;
 import ua.epam.spring.hometask.domain.UserDiscountInfo;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
 public interface UserDiscountInfoDAO {
 
-    UserDiscountInfo getByUserId(@Nonnull Long userId);
+    Optional<UserDiscountInfo> getByUserId(@Nonnull Long userId);
 
     UserDiscountInfo save(@Nonnull UserDiscountInfo userDiscountInfo);
 

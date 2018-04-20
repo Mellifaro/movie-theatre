@@ -4,6 +4,9 @@ import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * @author Viktor Skapoushchenko
+ */
 public interface BaseDAO<T> {
 
     Optional<T> getById(@Nonnull Long id);
