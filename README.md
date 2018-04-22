@@ -1,5 +1,4 @@
-Skeleton project for Spring Core MOOC course on university.epam.com
-
-Clone the repository using your EPAM's login and password.
-
-The hometask assignment can be found on project [Wiki](https://git.epam.com/yuriy_tkach/spring-core-hometask-skeleton/wikis/home)
+Finished tasks:
+1. Created services for working with users, events, tickets.
+2. Created aspects for counters, discounts, lucky winners.
+3. Created classes for working with database via jdbc.
