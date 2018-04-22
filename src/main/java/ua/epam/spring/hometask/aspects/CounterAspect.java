@@ -4,16 +4,23 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.epam.spring.hometask.dao.EventInfoDao;
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.domain.EventInfo;
+import ua.epam.spring.hometask.domain.Ticket;
+import ua.epam.spring.hometask.service.event.EventService;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
+
 
 @Aspect
 @Component
 public class CounterAspect {
-    public Map<Long, EventInfo> eventInfoMap = new TreeMap<>();
+
+    private EventInfoDao eventInfoDao;
+    private EventService eventService;
 
     @Pointcut("execution(* *.getByName(String)) && within(ua.epam.spring.hometask.service.event.EventServiceImpl)")
     private void allGetEventByNameMethods(){}
@@ -26,34 +33,40 @@ public class CounterAspect {
 
     @AfterReturning(pointcut = "allGetEventByNameMethods()", returning = "event")
     public void incrementCountAccessByName(Event event){
-        EventInfo eventInfo = insertOrGetEventInfoFromMap(event);
+        EventInfo eventInfo = eventInfoDao.getByEventId(event.getId()).orElse(new EventInfo(event.getId()));
         eventInfo.incrementCountAccessByName();
+        eventInfoDao.save(eventInfo);
     }
 
-    //todo test method
     @AfterReturning(pointcut = "allGetTicketsPriceMethods()")
     public void incrementCountPricesWereQueried(JoinPoint joinPoint){
-//        Event event = (Event)joinPoint.getArgs()[0];
-//        EventInfo eventInfo = insertOrGetEventInfoFromMap(event);
-//        eventInfo.incrementCountPricesWereQueried();
+        Set<Ticket> tickets = (Set<Ticket>)joinPoint.getArgs()[0];
+        if(!tickets.isEmpty()){
+            Event event = eventService.getById(tickets.iterator().next().getEventId());
+            EventInfo eventInfo = eventInfoDao.getByEventId(event.getId()).orElse(new EventInfo(event.getId()));
+            eventInfo.incrementCountPricesWereQueried();
+            eventInfoDao.save(eventInfo);
+        }
     }
 
-    //todo test method
     @AfterReturning(pointcut = "allBookTicketsMethods()")
     public void incrementCountTicketsWereBooked(JoinPoint joinPoint){
-//        Event event = (Event)joinPoint.getArgs()[0];
-//        EventInfo eventInfo = insertOrGetEventInfoFromMap(event);
-//        eventInfo.incrementCountTicketsWereBooked();
-    }
-
-    private EventInfo insertOrGetEventInfoFromMap(Event event){
-        Long eventId = event.getId();
-        EventInfo eventInfo = eventInfoMap.get(eventId);
-        if(eventInfo == null){
-            eventInfo = new EventInfo(eventId);
-            eventInfoMap.put(eventId, eventInfo);
+        Set<Ticket> tickets = (Set<Ticket>)joinPoint.getArgs()[0];
+        if(!tickets.isEmpty()) {
+            Event event = eventService.getById(tickets.iterator().next().getEventId());
+            EventInfo eventInfo = eventInfoDao.getByEventId(event.getId()).orElse(new EventInfo(event.getId()));
+            eventInfo.incrementCountTicketsWereBooked();
+            eventInfoDao.save(eventInfo);
         }
-        return eventInfo;
     }
 
+    @Autowired
+    public void setEventInfoDao(EventInfoDao eventInfoDao) {
+        this.eventInfoDao = eventInfoDao;
+    }
+
+    @Autowired
+    public void setEventService(EventService eventService) {
+        this.eventService = eventService;
+    }
 }

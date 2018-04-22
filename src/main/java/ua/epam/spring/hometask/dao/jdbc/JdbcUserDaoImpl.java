@@ -88,7 +88,6 @@ public class JdbcUserDaoImpl implements UserDAO {
         return user;
     }
 
-
     @Override
     public void remove(@Nonnull User user) {
         jdbcTemplate.update("DELETE FROM users WHERE users.id=?", user.getId());

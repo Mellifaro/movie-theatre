@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.domain;
 
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -10,9 +11,9 @@ public class UserDiscountInfo {
     public UserDiscountInfo() {
     }
 
-    public UserDiscountInfo(Long userId, Map<DiscountType, Integer> discountMap) {
+    public UserDiscountInfo(Long userId) {
         this.userId = userId;
-        this.discountMap = discountMap;
+        this.discountMap = new EnumMap<>(DiscountType.class);
     }
 
     public Long getUserId() {

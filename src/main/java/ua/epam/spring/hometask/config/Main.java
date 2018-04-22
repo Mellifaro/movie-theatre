@@ -21,7 +21,7 @@ public class Main {
 //
 //        Collection<User> users = userDAO.getAll();
 //        User deletedUser = new User();
-//        deletedUser.setId(102L);
+//        deletedUser.setEventId(102L);
 //
 //        userDAO.remove(deletedUser);
 //        Collection<User> users2 = userDAO.getAll();

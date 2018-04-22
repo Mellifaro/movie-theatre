@@ -4,6 +4,7 @@ DELETE FROM dates;
 DELETE FROM tickets;
 DELETE FROM user_discounts;
 DELETE FROM total_discounts;
+DELETE FROM event_info;
 
 ALTER SEQUENCE user_seq RESTART WITH 100;
 ALTER SEQUENCE event_seq RESTART WITH 100;
@@ -35,3 +36,6 @@ INSERT INTO user_discounts(user_id, discount_type, amount)
 INSERT INTO total_discounts(discount_type, amount)
   VALUES  ('BIRTHDAY', 0),
           ('TENTH_TICKET', 0);
+
+INSERT INTO event_info(event_id, count_by_name, count_price_queried, count_tickets_booked)
+  VALUES (100, 0, 0, 0);

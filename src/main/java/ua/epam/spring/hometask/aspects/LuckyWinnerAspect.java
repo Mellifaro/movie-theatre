@@ -24,7 +24,7 @@ public class LuckyWinnerAspect {
 
     private void checkLuckyForOneTicket(Ticket ticket){
         int result = new Random().nextInt(LUCKY_WINNER_CHANCE);
-        if(LUCKY_WINNER_CHANCE.equals(result)){
+        if(result == (LUCKY_WINNER_CHANCE - 2)){
             ticket.setPrice(0.00);
             ticket.setDiscount(100);
             ticket.setDiscountType(DiscountType.LUCKY_WINNER);

@@ -23,7 +23,7 @@ public class JdbcTotalDiscountInfoDAOImpl implements TotalDiscountInfoDAO {
     public Optional<TotalDiscountInfo> getByDiscountName(String discountName) {
         try {
             TotalDiscountInfo discountInfo = jdbcTemplate.queryForObject("SELECT * FROM total_discounts " +
-                    "WHERE total_discounts.discount_type=?", ROW_MAPPER, discountName);
+                    "WHERE discount_type=?", ROW_MAPPER, discountName);
             return Optional.of(discountInfo);
         }catch (EmptyResultDataAccessException ex){
             return Optional.empty();
@@ -35,16 +35,16 @@ public class JdbcTotalDiscountInfoDAOImpl implements TotalDiscountInfoDAO {
         TotalDiscountInfo result = getByDiscountName(discountInfo.getDiscountType().name()).orElseGet(null);
         if(result == null){
             jdbcTemplate.update("INSERT INTO total_discounts(discount_type, amount) " +
-                    "VALUES (?, ?)", discountInfo.getDiscountType(), discountInfo.getAmount());
+                    "VALUES (?, ?)", discountInfo.getDiscountType().toString(), discountInfo.getAmount());
         }else{
-            jdbcTemplate.update("UPDATE total_discounts SET total_discounts.amount=?", discountInfo.getAmount());
+            jdbcTemplate.update("UPDATE total_discounts SET amount=? WHERE discount_type=?", discountInfo.getAmount(), discountInfo.getDiscountType().toString());
         }
         return result;
     }
 
     @Override
     public void remove(String discountName) {
-        jdbcTemplate.update("DELETE FROM total_discounts WHERE total_discounts.discount_type=?", discountName);
+        jdbcTemplate.update("DELETE FROM total_discounts WHERE discount_type=?", discountName);
     }
 
     @Autowired

@@ -24,8 +24,6 @@ import java.util.Optional;
 @Repository
 public class JdbcUserDiscountInfoDAOImpl implements UserDiscountInfoDAO {
 
-    private static final BeanPropertyRowMapper<UserDiscountInfo> ROW_MAPPER = BeanPropertyRowMapper.newInstance(UserDiscountInfo.class);
-
     private JdbcTemplate jdbcTemplate;
 
     @Override
@@ -42,7 +40,7 @@ public class JdbcUserDiscountInfoDAOImpl implements UserDiscountInfoDAO {
         jdbcTemplate.update("DELETE FROM user_discounts WHERE user_id=?", userId);
         userDiscountInfo.getDiscountMap().forEach(((discountName, amount) -> {
             jdbcTemplate.update("INSERT INTO user_discounts(user_id, discount_type, amount) " +
-                    "VALUES (?,?,?)", userId, discountName, amount);
+                    "VALUES (?,?,?)", userId, discountName.toString(), amount);
         }));
         return userDiscountInfo;
     }
