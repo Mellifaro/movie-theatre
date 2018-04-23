@@ -4,8 +4,7 @@
     <groupId>com.epam.spring.core</groupId>
     <artifactId>movie-theatre</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Spring Core Hometask Skeleton</name>
-    <description>A skeleton project for the students of Spring Core MOOC course that can be used to do the hometask assignment</description>
+    <packaging>war</packaging>
 
     <properties>
         <java.version>1.8</java.version>

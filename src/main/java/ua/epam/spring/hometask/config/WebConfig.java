@@ -17,7 +17,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"ua.epam.spring.hometask.controller"})
-public class MvcConfig implements WebMvcConfigurer{
+public class WebConfig implements WebMvcConfigurer{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

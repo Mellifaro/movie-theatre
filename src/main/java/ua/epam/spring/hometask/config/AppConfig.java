@@ -7,7 +7,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.sql.DataSource;
 
@@ -16,11 +15,14 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-@PropertySource(
-        value = {"classpath:database.properties"}
-        )
-@ComponentScan(basePackages = {"ua.epam.spring.hometask.*"})
+@PropertySource("classpath:database.properties")
+@ComponentScan(basePackages = {
+        "ua.epam.spring.hometask.aspects",
+        "ua.epam.spring.hometask.dao",
+        "ua.epam.spring.hometask.service"
+})
 @EnableAspectJAutoProxy
+//@Import(WebConfig.class)
 public class AppConfig {
 
     @Value("${spring.datasource.url}")
@@ -61,5 +63,4 @@ public class AppConfig {
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource){
         return new NamedParameterJdbcTemplate(dataSource);
     }
-
 }
