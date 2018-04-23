@@ -32,7 +32,7 @@ public class JdbcTotalDiscountInfoDAOImpl implements TotalDiscountInfoDAO {
 
     @Override
     public TotalDiscountInfo save(TotalDiscountInfo discountInfo) {
-        TotalDiscountInfo result = getByDiscountName(discountInfo.getDiscountType().name()).orElseGet(null);
+        TotalDiscountInfo result = getByDiscountName(discountInfo.getDiscountType().name()).orElse(null);
         if(result == null){
             jdbcTemplate.update("INSERT INTO total_discounts(discount_type, amount) " +
                     "VALUES (?, ?)", discountInfo.getDiscountType().toString(), discountInfo.getAmount());
