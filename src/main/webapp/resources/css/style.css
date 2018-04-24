@@ -1,0 +1,37 @@
+.fullBackground{
+    background-color: beige
+}
+
+.container-bordered{
+    padding: 10px;
+    border: 3px solid #cecece;;
+    border-radius: 10px;
+}
+
+.marg{
+    margin: 20px;
+    background-color: antiquewhite;
+    padding-top: 15px;
+}
+
+.edit-icon{
+    margin-left: 10px;
+    margin-top: 6px;
+    height: 22px;
+}
+
+.table thead > tr > th,
+.table tfoot > tr > th,
+.table thead > tr > td,
+.table tfoot > tr > td {
+    border-top: 2px solid #417f8c;
+    border-bottom: 2px solid #417f8c;
+}
+
+.table tbody > tr > th,
+.table tbody > tr > td {
+    border-bottom: 1px solid #57adbf;
+}
+
+
+
