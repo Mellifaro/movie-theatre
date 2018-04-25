@@ -1,5 +1,10 @@
 package ua.epam.spring.hometask.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ua.epam.spring.hometask.util.LocalDateDeserializer;
+import ua.epam.spring.hometask.util.LocalDateSerializer;
+
 import java.time.LocalDate;
 import java.util.NavigableSet;
 import java.util.Objects;
@@ -13,6 +18,9 @@ public class User extends DomainObject {
     private String firstName;
     private String lastName;
     private String email;
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthday;
     private NavigableSet<Ticket> tickets = new TreeSet<>();
 

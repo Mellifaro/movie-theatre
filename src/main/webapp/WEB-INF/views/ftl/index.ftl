@@ -1,4 +1,7 @@
 <#import "spring.ftl" as spring />
+<#--<#assign  security=JspTaglibs["http://www.springframework.org/security/tags"] />-->
+<#--<#assign  form=JspTaglibs["http://www.springframework.org/tags/form"] />-->
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -11,6 +14,42 @@
 
     <body class="fullBackground">
         <div class="container container-bordered marg">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link" href="#">Home</a>
+                        <a class="nav-item nav-link" href="#">Features</a>
+                        <a class="nav-item nav-link" href="#">Pricing</a>
+                        <a class="nav-item nav-link disabled" href="#">Disabled</a>
+                    </div>
+                </div>
+            </nav>
+
+            <#--<@security.authorize access="isAnonymous()">-->
+                <#--<@form.form class="navbar-form navbar-right" role="form" action="spring_security_check"-->
+                           <#--method="post">-->
+                    <#--<div class="form-group">-->
+                        <#--<input type="text" placeholder="Email" class="form-control" name='username'>-->
+                    <#--</div>-->
+                    <#--<div class="form-group">-->
+                        <#--<input type="password" placeholder="Password" class="form-control" name='password'>-->
+                    <#--</div>-->
+                    <#--<button type="submit" class="btn btn-default">Sign in</button>-->
+                    <#--<a class="btn btn-default" role="button" href="#">Register &raquo;</a>-->
+                    <#--<%--<a href="<c:url value="/j_spring_security_logout" />" >Sign up</a>--%>-->
+                <#--</@form.form>-->
+            <#--</@security.authorize>-->
+
+            <#--<form:form class="navbar-form navbar-right" action="logout" method="post">-->
+                <#--<sec:authorize access="isAuthenticated()">-->
+                    <#--<%--<sec:authentication var ="username" property="principal.username" />--%>-->
+                    <#--<%--receiving username from ModelInterceptor--%>-->
+                    <#--<a class="btn btn-default" role="button" href="profile">${userTo.name} <spring:message code="profile"/></a>-->
+                    <#--<input type="submit" class="btn btn-default" value=<spring:message code="logout"/>>-->
+                <#--</sec:authorize>-->
+            <#--</form:form>-->
+
             <h3><em>The List Of Users</em></h3>
             <table class="table" id="datatable">
                 <thead>
@@ -38,11 +77,10 @@
                 </tbody>
             </table>
 
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="validatedCustomFile" required>
-                <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-                <div class="invalid-feedback">Example invalid custom file feedback</div>
-            </div>
+            <form method="POST" action="uploadFile" enctype="multipart/form-data" >
+                <input type="file" name="file" />
+                <input type="submit" value="Upload">
+            </form>
         </div>
 
         <script type="text/javascript" src="<@spring.url '/webjars/jquery/3.3.1-1/jquery.min.js'/>"></script>

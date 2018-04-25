@@ -1,5 +1,11 @@
 package ua.epam.spring.hometask.config;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
@@ -62,5 +68,15 @@ public class AppConfig {
     @Autowired
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource){
         return new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public ObjectMapper objectMapper(){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        return mapper;
     }
 }
