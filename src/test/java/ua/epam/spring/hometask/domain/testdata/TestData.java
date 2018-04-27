@@ -32,10 +32,12 @@ public class TestData {
 
     private static void initEntities(){
         //creating users
-        admin = new User("Ivan", "Kravchuk", "kravchukivan@gmail.com", LocalDate.of(1985, 5, 1));
+        admin = new User("Ivan", "Kravchuk", "kravchukivan@gmail.com", LocalDate.of(1985, 2, 1));
         user = new User("Alek", "Onopenko", "onopemkoalek@gmail.com", LocalDate.of(1993, 4, 7));
         admin.setId(100L);
+        admin.setPassword("$2a$04$BAuP/D2wxRuaCuCHVIjEk.Usua7TkbNc0RAFcrzNdbwlL1ls8r7C.");
         user.setId(101L);
+        user.setPassword("$2a$04$7Vz1Ets3LK50fTy0GZNE6.kHfG7q9SEje..ZNx13ojdsp6n44Jm..");
 
         //creating auditoriums
         greenAuditorium = new Auditorium("green", 50, Stream.of(10L, 11L, 12L).collect(Collectors.toSet()));

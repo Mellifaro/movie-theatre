@@ -20,6 +20,7 @@ CREATE TABLE users(
   first_name    VARCHAR NOT NULL,
   last_name     VARCHAR NOT NULL,
   email         VARCHAR UNIQUE,
+  password      VARCHAR NOT NULL,
   birthday      TIMESTAMP DEFAULT NULL
 );
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);

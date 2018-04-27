@@ -18,6 +18,7 @@ public class User extends DomainObject {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
@@ -64,6 +65,14 @@ public class User extends DomainObject {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public NavigableSet<Ticket> getTickets() {

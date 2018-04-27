@@ -73,6 +73,7 @@ public class JdbcUserServiceTest {
     @Test
     public void testSaveUserSuccess(){
         User testUser = new User("Oleg", "Petrenko", "petrenko@gmail.com", LocalDate.of(1987, 11, 11));
+        testUser.setPassword("$2a$04$7Vz1Ets3LK50fTy0GZNE6.kHfG7q9SEje..ZNx13ojdsp6n44Jm..");
         userService.save(testUser);
         Collection<User> users = userService.getAll();
         assertEquals(3, users.size());
@@ -82,6 +83,7 @@ public class JdbcUserServiceTest {
     @Test(expected = DuplicateKeyException.class)
     public void testSaveUserWithDuplicatedEmailFail(){
         User testUser = new User("Oleg", "Petrenko", "kravchukivan@gmail.com", LocalDate.of(1987, 11, 11));
+        testUser.setPassword("$2a$04$7Vz1Ets3LK50fTy0GZNE6.kHfG7q9SEje..ZNx13ojdsp6n44Jm..");
         userService.save(testUser);
     }
 
@@ -89,6 +91,7 @@ public class JdbcUserServiceTest {
     public void testUpdateUserSuccess(){
         User testUser = new User("Oleg", "Petrenko", "petrenko@gmail.com", LocalDate.of(1987, 11, 11));
         testUser.setId(100L);
+        testUser.setPassword("$2a$04$7Vz1Ets3LK50fTy0GZNE6.kHfG7q9SEje..ZNx13ojdsp6n44Jm..");
         userService.save(testUser);
 
         Collection<User> users = userService.getAll();
@@ -101,26 +104,29 @@ public class JdbcUserServiceTest {
     public void testUpdateUserWithDuplicatedEmailFail(){
         User testUser = new User("Oleg", "Petrenko", "kravchukivan@gmail.com", LocalDate.of(1987, 11, 11));
         testUser.setId(101L);
+        testUser.setPassword("$2a$04$7Vz1Ets3LK50fTy0GZNE6.kHfG7q9SEje..ZNx13ojdsp6n44Jm..");
         userService.save(testUser);
     }
 
     @Test
     public void testSaveUserWithTickets(){
-        userService.save(new User("Oleg", "Petrenko", "olegpetrenko@gmail.com", LocalDate.of(1987, 11, 11)));
-        User testUser = userService.getUserByEmail("olegpetrenko@gmail.com");
-        Ticket ticket1 = new Ticket(testUser.getId(), theLordOfRings.getId(), firstEventFirstDate, 2L);
-        Ticket ticket2 = new Ticket(testUser.getId(), theLordOfRings.getId(), firstEventFirstDate, 3L);
+        User testUser = new User("Oleg", "Petrenko", "petrenko@gmail.com", LocalDate.of(1987, 11, 11));
+        testUser.setPassword("$2a$04$7Vz1Ets3LK50fTy0GZNE6.kHfG7q9SEje..ZNx13ojdsp6n44Jm..");
+        userService.save(testUser);
+        User foundTestUser = userService.getUserByEmail("olegpetrenko@gmail.com");
+        Ticket ticket1 = new Ticket(foundTestUser.getId(), theLordOfRings.getId(), firstEventFirstDate, 2L);
+        Ticket ticket2 = new Ticket(foundTestUser.getId(), theLordOfRings.getId(), firstEventFirstDate, 3L);
 
-        testUser.setTickets(new TreeSet<Ticket>(){{
+        foundTestUser.setTickets(new TreeSet<Ticket>(){{
             add(ticket1);
             add(ticket2);
         }});
 
-        userService.save(testUser);
+        userService.save(foundTestUser);
         User receivedUser = userService.getUserByEmail("olegpetrenko@gmail.com");
         NavigableSet<Ticket> receivedTickets = receivedUser.getTickets();
-        assertEquals(testUser, receivedUser);
-        testUser.getTickets().forEach(ticket -> assertTrue(receivedTickets.contains(ticket)));
+        assertEquals(foundTestUser, receivedUser);
+        foundTestUser.getTickets().forEach(ticket -> assertTrue(receivedTickets.contains(ticket)));
     }
 
     @Test

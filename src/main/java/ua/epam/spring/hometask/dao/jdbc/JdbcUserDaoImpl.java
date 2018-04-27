@@ -75,6 +75,7 @@ public class JdbcUserDaoImpl implements UserDAO {
                 .addValue("first_name", user.getFirstName())
                 .addValue("last_name", user.getLastName())
                 .addValue("email", user.getEmail())
+                .addValue("password", user.getPassword())
                 .addValue("birthday", LocalDateFormatter.convertToTimestamp(user.getBirthday()));
 
         if(user.isNew()){
@@ -82,7 +83,7 @@ public class JdbcUserDaoImpl implements UserDAO {
             user.setId(newId.longValue());
         }else{
             namedParameterJdbcTemplate.update("UPDATE users SET first_name=:first_name, last_name=:last_name, " +
-                    "email=:email, birthday=:birthday WHERE id=:id", map);
+                    "email=:email, birthday=:birthday, password=:password WHERE id=:id", map);
         }
         updateTicketsToDb(user);
         return user;
@@ -102,11 +103,8 @@ public class JdbcUserDaoImpl implements UserDAO {
         NavigableSet<Ticket> existingTickets = ticketDAO.getTicketsByUserId(user.getId());
         NavigableSet<Ticket> ticketsToUpdate = user.getTickets();
 
-        existingTickets.stream().filter(existingTicket -> {
-            return ticketsToUpdate.stream()
-                    .allMatch(ticketToUpdate -> !existingTicket.getId().equals(ticketToUpdate.getId()));
-
-        }).forEach(ticketDAO::remove);
+        existingTickets.stream().filter(existingTicket -> ticketsToUpdate.stream()
+                .noneMatch(ticketToUpdate -> existingTicket.getId().equals(ticketToUpdate.getId()))).forEach(ticketDAO::remove);
         ticketsToUpdate.forEach(ticketDAO::save);
     }
 

@@ -11,9 +11,9 @@ ALTER SEQUENCE event_seq RESTART WITH 100;
 ALTER SEQUENCE date_seq RESTART WITH 100;
 ALTER SEQUENCE ticket_seq RESTART WITH 100;
 
-INSERT INTO users(first_name, last_name, email, birthday)
-  VALUES ('Ivan', 'Kravchuk', 'kravchukivan@gmail.com', '1985-05-01 10:00'),
-         ('Alek', 'Onopenko', 'onopemkoalek@gmail.com', '1993-04-07 10:00');
+INSERT INTO users(first_name, last_name, email, password, birthday)
+VALUES ('Ivan', 'Kravchuk', 'kravchukivan@gmail.com', '$2a$04$BAuP/D2wxRuaCuCHVIjEk.Usua7TkbNc0RAFcrzNdbwlL1ls8r7C.', '1985-02-01 10:00'),
+  ('Alek', 'Onopenko', 'onopemkoalek@gmail.com', '$2a$04$7Vz1Ets3LK50fTy0GZNE6.kHfG7q9SEje..ZNx13ojdsp6n44Jm..', '1993-04-07 10:00');
 
 INSERT INTO events(name, base_price, rating)
   VALUES ('The Lord Of The Rings', 65.00, 'HIGH'),
