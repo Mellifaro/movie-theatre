@@ -24,22 +24,24 @@
                         <a class="nav-item nav-link disabled" href="#">Disabled</a>
                     </div>
                 </div>
+
+                <form class="navbar-form navbar-right" role="form" action="spring_security_check"
+                      method="post">
+                    <div class="form-group">
+                        <input type="text" placeholder="Email" class="form-control" name='username'>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Password" class="form-control" name='password'>
+                    </div>
+                    <button type="submit" class="btn btn-default">Sign in</button>
+                    <a class="btn btn-default" role="button" href="#">Register &raquo;</a>
+                    <%--<a href="<c:url value="/j_spring_security_logout" />" >Sign up</a>--%>
+                </form>
+
             </nav>
 
-            <#--<@security.authorize access="isAnonymous()">-->
-                <#--<@form.form class="navbar-form navbar-right" role="form" action="spring_security_check"-->
-                           <#--method="post">-->
-                    <#--<div class="form-group">-->
-                        <#--<input type="text" placeholder="Email" class="form-control" name='username'>-->
-                    <#--</div>-->
-                    <#--<div class="form-group">-->
-                        <#--<input type="password" placeholder="Password" class="form-control" name='password'>-->
-                    <#--</div>-->
-                    <#--<button type="submit" class="btn btn-default">Sign in</button>-->
-                    <#--<a class="btn btn-default" role="button" href="#">Register &raquo;</a>-->
-                    <#--<%--<a href="<c:url value="/j_spring_security_logout" />" >Sign up</a>--%>-->
-                <#--</@form.form>-->
-            <#--</@security.authorize>-->
+
+
 
             <#--<form:form class="navbar-form navbar-right" action="logout" method="post">-->
                 <#--<sec:authorize access="isAuthenticated()">-->

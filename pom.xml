@@ -116,6 +116,13 @@
             <version>1.2</version>
         </dependency>
 
+        <!-- Needed for IText PDF View -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.9</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>

@@ -3,13 +3,12 @@ package ua.epam.spring.hometask.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import ua.epam.spring.hometask.controller.views.ItextPdfView;
 
 /**
  * Created by Viktor_Skapoushchenk on 4/23/2018.
@@ -28,6 +27,23 @@ public class WebConfig implements WebMvcConfigurer{
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer
+                .defaultContentType(MediaType.TEXT_HTML)
+                .parameterName("mediaType")
+                .ignoreAcceptHeader(true)
+                .mediaType("pdf", MediaType.APPLICATION_PDF);
+    }
+
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        registry.freeMarker();
+        registry.enableContentNegotiation(
+                new ItextPdfView()
+        );
     }
 
     @Bean(name = "multipartResolver")

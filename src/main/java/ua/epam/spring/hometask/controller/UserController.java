@@ -34,11 +34,18 @@ public class UserController{
 
     }
 
-    @GetMapping(value = "/")
+    @GetMapping
     public String getAllUsers(ModelMap modelMap){
         List<User> users = (List<User>)userService.getAll();
         modelMap.put("users", users);
-        return "index";
+        return "users";
+    }
+
+    @GetMapping(value = "/list")
+    public String getAllUsersPDF(ModelMap modelMap){
+        List<User> users = (List<User>)userService.getAll();
+        modelMap.put("users", users);
+        return "usersPdf";
     }
 
     @PostMapping(value = "/uploadFile")
