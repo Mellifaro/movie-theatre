@@ -2,13 +2,12 @@ package ua.epam.spring.hometask.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.util.CollectionUtils;
 import ua.epam.spring.hometask.util.LocalDateDeserializer;
 import ua.epam.spring.hometask.util.LocalDateSerializer;
 
 import java.time.LocalDate;
-import java.util.NavigableSet;
-import java.util.Objects;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author Viktor Skapoushchenko
@@ -19,6 +18,7 @@ public class User extends DomainObject {
     private String lastName;
     private String email;
     private String password;
+    private Set<Role> roles;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
@@ -33,6 +33,15 @@ public class User extends DomainObject {
         this.lastName = lastName;
         this.email = email;
         this.birthday = birthday;
+        setRoles(EnumSet.of(Role.ROLE_USER));
+    }
+
+    public User(String firstName, String lastName, String email, LocalDate birthday, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthday = birthday;
+        this.roles = roles;
     }
 
     public String getFirstName() {
@@ -75,6 +84,14 @@ public class User extends DomainObject {
         this.password = password;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
+    }
+
     public NavigableSet<Ticket> getTickets() {
         return tickets;
     }
@@ -105,6 +122,8 @@ public class User extends DomainObject {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
                 ", birthday=" + birthday +
                 '}';
     }

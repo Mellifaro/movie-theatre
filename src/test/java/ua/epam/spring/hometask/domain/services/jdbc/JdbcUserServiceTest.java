@@ -113,7 +113,7 @@ public class JdbcUserServiceTest {
         User testUser = new User("Oleg", "Petrenko", "petrenko@gmail.com", LocalDate.of(1987, 11, 11));
         testUser.setPassword("$2a$04$7Vz1Ets3LK50fTy0GZNE6.kHfG7q9SEje..ZNx13ojdsp6n44Jm..");
         userService.save(testUser);
-        User foundTestUser = userService.getUserByEmail("olegpetrenko@gmail.com");
+        User foundTestUser = userService.getUserByEmail("petrenko@gmail.com");
         Ticket ticket1 = new Ticket(foundTestUser.getId(), theLordOfRings.getId(), firstEventFirstDate, 2L);
         Ticket ticket2 = new Ticket(foundTestUser.getId(), theLordOfRings.getId(), firstEventFirstDate, 3L);
 
