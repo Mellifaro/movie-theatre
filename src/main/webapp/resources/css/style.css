@@ -1,16 +1,16 @@
 .fullBackground{
-    background-color: beige
+    background-color: antiquewhite;
 }
 
 .container-bordered{
     padding: 10px;
     border: 3px solid #cecece;;
     border-radius: 10px;
+    background-color: beige;
 }
 
 .marg{
     margin: 20px;
-    background-color: antiquewhite;
     padding-top: 15px;
 }
 
@@ -22,4 +22,30 @@
 
 .bg-light{
     background-color: antiquewhite;
+}
+
+.button-marg{
+    margin-left: 10px;
+}
+
+.checkbox-marg{
+    margin-left: 7px;
+    margin-top: 3px;
+}
+
+.user-style{
+    color: darkcyan;
+    margin-top: 10px;
+}
+
+.marg-left-20{
+    margin-left: 20px;
+}
+
+.font-darkcyan{
+    color: darkcyan;
+}
+
+.allign-text-center{
+    text-align: center;
 }

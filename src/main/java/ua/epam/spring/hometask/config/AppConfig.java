@@ -28,7 +28,6 @@ import javax.sql.DataSource;
         "ua.epam.spring.hometask.service"
 })
 @EnableAspectJAutoProxy
-//@Import(WebConfig.class)
 public class AppConfig {
 
     @Value("${spring.datasource.url}")

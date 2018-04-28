@@ -46,4 +46,8 @@ public class AuthorizedUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public float getBalance(){
+        return 500.00f;
+    }
 }

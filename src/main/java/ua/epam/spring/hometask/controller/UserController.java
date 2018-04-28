@@ -10,11 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.user.UserService;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**

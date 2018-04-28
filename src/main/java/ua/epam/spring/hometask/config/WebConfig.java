@@ -3,6 +3,7 @@ package ua.epam.spring.hometask.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -16,17 +17,13 @@ import ua.epam.spring.hometask.controller.views.ItextPdfView;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = "ua.epam.spring.hometask.controller")
+@Import(value = {AppConfig.class, SecurityConfig.class})
 public class WebConfig implements WebMvcConfigurer{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
     }
 
     @Override
