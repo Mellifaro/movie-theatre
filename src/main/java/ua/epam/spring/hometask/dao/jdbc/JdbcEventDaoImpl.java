@@ -1,7 +1,6 @@
 package ua.epam.spring.hometask.dao.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,7 +13,6 @@ import ua.epam.spring.hometask.dao.AuditoriumDAO;
 import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
-import ua.epam.spring.hometask.exceptions.NotFoundException;
 
 import javax.annotation.Nonnull;
 import javax.sql.DataSource;
@@ -110,7 +108,7 @@ public class JdbcEventDaoImpl implements EventDAO {
     private void insertAirDatesAndAuditoriums(Event event){
         NavigableMap<LocalDateTime, Auditorium> dateAuditoriums = jdbcTemplate.query("SELECT event_date, auditorium_name FROM dates WHERE dates.event_id=?", new ResultSetExtractor<NavigableMap<LocalDateTime, Auditorium>>() {
             @Override
-            public NavigableMap<LocalDateTime, Auditorium> extractData(ResultSet rs) throws SQLException, DataAccessException {
+            public NavigableMap<LocalDateTime, Auditorium> extractData(ResultSet rs) throws SQLException {
                 NavigableMap<LocalDateTime, Auditorium> resSet = new TreeMap<>();
                 while (rs.next()) {
                     try {

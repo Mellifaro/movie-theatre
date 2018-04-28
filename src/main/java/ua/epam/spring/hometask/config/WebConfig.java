@@ -15,7 +15,7 @@ import ua.epam.spring.hometask.controller.views.ItextPdfView;
  */
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = {"ua.epam.spring.hometask.controller"})
+@ComponentScan(basePackages = "ua.epam.spring.hometask.controller")
 public class WebConfig implements WebMvcConfigurer{
 
     @Override
