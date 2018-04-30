@@ -49,3 +49,28 @@
 .allign-text-center{
     text-align: center;
 }
+
+.account{
+    width: 35%;
+    margin: 20px;
+    padding: 15px;
+    background-color: #ede7e7;
+    border: 3px solid #cecece;;
+    border-radius: 10px;
+}
+
+.marg-20{
+    margin: 20px;
+}
+
+.pad-right-40{
+    padding-right: 15px;
+}
+
+.marg-top-30{
+    margin-top: 30px!important;
+}
+
+.pad-bottom-20{
+    padding-bottom: 20px;
+}
