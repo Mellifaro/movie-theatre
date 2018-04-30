@@ -10,6 +10,7 @@
                 <table class="table" id="datatable">
                     <thead>
                     <tr>
+                        <th width="4%" class="allign-text-center">#</th>
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Email</th>
@@ -22,6 +23,7 @@
                     <tbody>
                          <#list users as user>
                          <tr>
+                             <td class="allign-text-center">${user?index + 1}</td>
                              <td>${user.firstName}</td>
                              <td>${user.lastName}</td>
                              <td>${user.email}</td>
