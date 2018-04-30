@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS user_roles CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
 DROP TABLE IF EXISTS dates CASCADE;
 DROP TABLE IF EXISTS tickets CASCADE;
@@ -21,6 +22,7 @@ CREATE TABLE users(
   last_name     VARCHAR NOT NULL,
   email         VARCHAR UNIQUE,
   password      VARCHAR NOT NULL,
+  balance       FLOAT DEFAULT 0,
   birthday      TIMESTAMP DEFAULT NULL
 );
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);

@@ -2,16 +2,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
                         <@security.authorize access="isAuthenticated()">
-                            <li class="nav-item"><a class="nav-link" href="#"><strong>My Account</strong></a></li>
+                            <li class="nav-item"><a class="nav-link" href="<@spring.url '/account'/>"><strong>My Account</strong></a></li>
                         </@security.authorize>
-                            <li class="nav-item"><a class="nav-link" href="#"><strong>Events</a></strong></li>
+                            <li class="nav-item"><a class="nav-link" href="<@spring.url '/events'/>"><strong>Events</strong></a></li>
                         <@security.authorize access="isAuthenticated()">
-                            <li class="nav-item"><a class="nav-link" href="#"><strong>Tickets</a></strong></li>
+                            <li class="nav-item"><a class="nav-link" href="#"><strong>Tickets</strong></a></li>
                         </@security.authorize>
                         <@security.authorize access="hasRole('ROLE_ADMIN')">
-                            <li class="nav-item"><a class="nav-link" href="#"><strong>Users</a></strong></li>
-                            <li class="nav-item"><a class="nav-link" href="#"><strong>Info</a></strong></li>
+                            <li class="nav-item"><a class="nav-link" href="<@spring.url '/users'/>"><strong>Users</strong></a></li>
                         </@security.authorize>
+                        <@security.authorize access="isAuthenticated()">
+                            <li class="nav-item"><a class="nav-link" href="<@spring.url '/info'/>"><strong>Info</strong></a></li>
+                        </@security.authorize>
+
         </ul>
                     <@security.authorize access="isAnonymous()">
                     <form class="form-inline my-2 my-lg-0" role="form" action="<@spring.url '/events'/>" method="post">
@@ -21,8 +24,8 @@
                             <label for="remember-me">Remember me</label>
                             <input type="checkbox" name="remember-me" id="remember-me"/>
                         </div>
-                        <button class="btn btn-outline-success my-2 my-sm-0 button-marg type="submit">Sign in</button>
-                        <a class="btn btn-outline-success my-2 my-sm-0 button-marg" role="button" href="#">Register &raquo;</a>
+                        <button class="btn btn-outline-primary my-2 my-sm-0 button-marg type="submit">Sign in</button>
+                        <a class="btn btn-outline-primary my-2 my-sm-0 button-marg" role="button" href="#">Register &raquo;</a>
                     </form>
                     </@security.authorize>
 

@@ -90,6 +90,7 @@ public class JdbcUserDaoImpl implements UserDAO {
                 .addValue("last_name", user.getLastName())
                 .addValue("email", user.getEmail())
                 .addValue("password", user.getPassword())
+                .addValue("balance", user.getBalance())
                 .addValue("birthday", LocalDateFormatter.convertToTimestamp(user.getBirthday()));
 
         if(user.isNew()){
@@ -100,7 +101,7 @@ public class JdbcUserDaoImpl implements UserDAO {
             deleteRoles(user);
             insertRoles(user);
             namedParameterJdbcTemplate.update("UPDATE users SET first_name=:first_name, last_name=:last_name, " +
-                    "email=:email, birthday=:birthday, password=:password WHERE id=:id", map);
+                    "email=:email, birthday=:birthday, password=:password, balance=:balance WHERE id=:id", map);
         }
         updateTicketsToDb(user);
         return user;

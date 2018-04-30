@@ -18,6 +18,7 @@ public class User extends DomainObject {
     private String lastName;
     private String email;
     private String password;
+    private float balance;
     private Set<Role> roles;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -84,6 +85,14 @@ public class User extends DomainObject {
         this.password = password;
     }
 
+    public float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(float balance) {
+        this.balance = balance;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -99,6 +108,8 @@ public class User extends DomainObject {
     public void setTickets(NavigableSet<Ticket> tickets) {
         this.tickets = tickets;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

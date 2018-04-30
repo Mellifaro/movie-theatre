@@ -48,6 +48,10 @@ public class AuthorizedUser implements UserDetails {
     }
 
     public float getBalance(){
-        return 500.00f;
+        return user.getBalance();
+    }
+
+    public void setBalance(float balance){
+        user.setBalance(balance);
     }
 }
