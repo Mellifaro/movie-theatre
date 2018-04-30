@@ -123,7 +123,7 @@ public class JdbcUserServiceTest {
         }});
 
         userService.save(foundTestUser);
-        User receivedUser = userService.getUserByEmail("olegpetrenko@gmail.com");
+        User receivedUser = userService.getUserByEmail("petrenko@gmail.com");
         NavigableSet<Ticket> receivedTickets = receivedUser.getTickets();
         assertEquals(foundTestUser, receivedUser);
         foundTestUser.getTickets().forEach(ticket -> assertTrue(receivedTickets.contains(ticket)));
