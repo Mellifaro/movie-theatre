@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ua.epam.spring.hometask.domain.Role;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.user.UserService;
 
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -20,14 +22,13 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserController{
 
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
-    public void saveUsers(){
-
+    @Autowired
+    public UserController(UserService userService, ObjectMapper objectMapper) {
+        this.userService = userService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping
@@ -37,23 +38,18 @@ public class UserController{
         return "users";
     }
 
-    @GetMapping(value = "/list")
-    public String getAllUsersPDF(ModelMap modelMap){
-        List<User> users = (List<User>)userService.getAll();
-        modelMap.put("users", users);
-        return "usersPdf";
-    }
-
     @PostMapping(value = "/uploadFile")
     public String uploadMultipleFileHandler(@RequestParam("file") MultipartFile file) throws IOException {
         if(!file.isEmpty()){
             TypeFactory typeFactory = objectMapper.getTypeFactory();
             List<User> userList = objectMapper.readValue(file.getBytes(), typeFactory.constructCollectionType(List.class, User.class));
-            userList.forEach(userService::save);
-            System.out.println(userList);
-            return "redirect:uploadSuccess";
+            userList.forEach(user -> {
+                user.setRoles(EnumSet.of(Role.ROLE_USER));
+                userService.save(user);
+            });
+            return "redirect:/users";
         }
-        return "redirect:uploadFailure";
+        return "redirect:/error";
     }
 
     @Autowired

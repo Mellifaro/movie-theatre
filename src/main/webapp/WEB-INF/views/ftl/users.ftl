@@ -15,8 +15,8 @@
                         <th>Last name</th>
                         <th>Email</th>
                         <th>Birthday</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <#--<th>Edit</th>-->
+                        <#--<th>Delete</th>-->
                     </tr>
                     </thead>
 
@@ -28,18 +28,20 @@
                              <td>${user.lastName}</td>
                              <td>${user.email}</td>
                              <td>${user.birthday}</td>
-                             <td><img class="edit-icon" src="<@spring.url '/resources/images/edit-notactive.svg'/>"></td>
-                             <td></td>
+                             <#--<td><img class="edit-icon" src="<@spring.url '/resources/images/edit-notactive.svg'/>"></td>-->
+                             <#--<td></td>-->
                          </tr>
                          </#list>
                      </tbody>
                 </table>
 
-            <form method="POST" action="uploadFile" enctype="multipart/form-data" >
+            <form method="POST" action="<@spring.url '/users/uploadFile'/>" enctype="multipart/form-data" >
                 <input type="file" name="file" />
                 <input type="submit" value="Upload">
             </form>
         </div>
+        <script type="text/javascript" src="<@spring.url '/webjars/jquery/3.3.1-1/jquery.min.js'/>"></script>
+        <script type="text/javascript" src="<@spring.url '/webjars/bootstrap/4.1.0/js/bootstrap.min.js'/>"></script>
     </body>
 </html>
 

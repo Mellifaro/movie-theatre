@@ -18,7 +18,7 @@ public class User extends DomainObject {
     private String lastName;
     private String email;
     private String password;
-    private float balance;
+    private double balance;
     private Set<Role> roles;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -85,11 +85,11 @@ public class User extends DomainObject {
         this.password = password;
     }
 
-    public float getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
