@@ -7,11 +7,11 @@
     <div class="container container-bordered">
         <#include "fragments/bodyHeader.ftl">
 
-        <div class="account">
+        <div id="account" class="account">
             <p class="user-style marg-left-20">Account: <strong id="userEmail"><@security.authentication property="principal.username"></@security.authentication></strong></p>
             <p class="user-style marg-left-20">Balance: <strong><@security.authentication property="principal.balance"></@security.authentication> UAH</strong></p>
             <div class="col-12 pad-bottom-20">
-            <input type="number" step="0.01" class="form-control marg-15 " id="accountUAH" name="accountUAH" placeholder="0.00">
+                <input type="number" step="0.01" class="form-control marg-15" id="accountUAH" name="accountUAH" placeholder="0.00">
             </div>
             <button class="btn btn-outline-primary my-2 my-sm-0 user-style marg-20" id="putMoneyButton">Put</button>
             <button class="btn btn-outline-primary my-2 my-sm-0 user-style" id="withdrawMoneyButton">Withdraw</button>

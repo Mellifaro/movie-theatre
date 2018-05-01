@@ -6,6 +6,7 @@ $(function(){
     onWithdrawButton();
 });
 
+
 function onPutButton(){
     $("#putMoneyButton").on({
         "click" : function () {
@@ -25,6 +26,9 @@ function onPutButton(){
                 data: JSON.stringify(putMoney),
                 success: function () {
                     location.reload();
+                },
+                error: function () {
+                    $("#account").append("<p id=\"errorMessage\" class=\"red-color marg-left-20\">Operation with balance was not successful</p>");
                 }
             });
         }
@@ -50,6 +54,9 @@ function onWithdrawButton(){
                 data: JSON.stringify(withdrawMoney),
                 success: function () {
                     location.reload();
+                },
+                error: function () {
+                    $("#account").append("<p id=\"errorMessage\" class=\"red-color marg-left-20\">Operation was not successful</p>");
                 }
             });
         }
