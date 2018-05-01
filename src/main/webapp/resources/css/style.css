@@ -50,6 +50,10 @@
     text-align: center;
 }
 
+.allign-text-left{
+    text-align: left;
+}
+
 .account{
     width: 35%;
     margin: 20px;
@@ -73,4 +77,17 @@
 
 .pad-bottom-20{
     padding-bottom: 20px;
+}
+
+.eventBooking{
+    margin: 20px;
+    padding: 15px;
+    background-color: #ede7e7;
+    border: 3px solid #cecece;;
+    border-radius: 10px;
+}
+
+.red-color{
+    color: crimson;
+    margin-top: 10px;
 }

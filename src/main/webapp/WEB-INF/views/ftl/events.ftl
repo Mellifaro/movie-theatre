@@ -14,7 +14,6 @@
                     <th>Name</th>
                     <th>Date-Audinorium</th>
                     <th class="allign-text-center">Base price</th>
-                    <th class="allign-text-center">Audinorium</th>
                     <th class="allign-text-center">Rating</th>
                 </tr>
                 </thead>
@@ -39,10 +38,12 @@
                 </tbody>
             </table>
 
-            <form method="POST" action="uploadFile" enctype="multipart/form-data" >
+            <form method="POST" action="<@spring.url '/events/uploadFile'/>" enctype="multipart/form-data" >
                 <input type="file" name="file" />
                 <input type="submit" value="Upload">
             </form>
+            <script type="text/javascript" src="<@spring.url '/webjars/jquery/3.3.1-1/jquery.min.js'/>"></script>
+            <script type="text/javascript" src="<@spring.url '/webjars/bootstrap/4.1.0/js/bootstrap.min.js'/>"></script>
         </div>
     </body>
 </html>
