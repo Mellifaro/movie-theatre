@@ -2,6 +2,7 @@ package ua.epam.spring.hometask.service.booking;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.dao.TicketDAO;
 import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.service.auditorium.AuditoriumService;
@@ -43,6 +44,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     //todo rewrite with jdbc batch insert
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
         tickets.forEach(ticketDAO::save);
@@ -50,6 +52,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Nonnull
     @Override
+    @Transactional
     public Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
         return ticketDAO.getPurchasedTicketsForEvent(event.getId(), dateTime);
     }

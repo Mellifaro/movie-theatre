@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.service.booking;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
@@ -27,6 +28,7 @@ public class BookingFacadeImpl implements BookingFacade{
     }
 
     @Override
+    @Transactional
     public void bookTickets(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
         Set<Ticket> tickets = bookingService.getTicketsFromSeats(event, dateTime, user, seats);
         Double price = bookingService.getTicketsPrice(tickets);
@@ -36,6 +38,7 @@ public class BookingFacadeImpl implements BookingFacade{
     }
 
     @Override
+    @Transactional
     public Set<Long> getAllAvailableSeatsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
         return bookingService.getAllAvailableSeatsForEvent(event, dateTime);
     }

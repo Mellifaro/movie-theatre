@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.dao.TicketDAO;
 import ua.epam.spring.hometask.domain.DiscountType;
 import ua.epam.spring.hometask.domain.Ticket;
@@ -40,6 +41,7 @@ public class JdbcTicketDaoImpl implements TicketDAO {
 
     @Nonnull
     @Override
+    @Transactional
     public NavigableSet<Ticket> getTicketsByUserId(Long userId) {
         List<Ticket> tickets = jdbcTemplate.query("SELECT * FROM tickets WHERE tickets.user_id=?", TICKET_ROW_MAPPER, userId);
         return new TreeSet<>(tickets);
@@ -47,6 +49,7 @@ public class JdbcTicketDaoImpl implements TicketDAO {
 
     @Nonnull
     @Override
+    @Transactional
     public Set<Ticket> getPurchasedTicketsForEvent(Long eventId, LocalDateTime dateTime) {
         List<Ticket> tickets = jdbcTemplate.query("SELECT * FROM tickets WHERE tickets.event_id=? AND tickets.date_time=?", TICKET_ROW_MAPPER,
                 eventId, Timestamp.valueOf(dateTime));
@@ -54,6 +57,7 @@ public class JdbcTicketDaoImpl implements TicketDAO {
     }
 
     @Override
+    @Transactional
     public Optional<Ticket> getById(@Nonnull Long id) {
         Ticket ticket = jdbcTemplate.queryForObject("SELECT * FROM tickets WHERE tickets.id=?", TICKET_ROW_MAPPER, id);
         return Optional.of(ticket);
@@ -61,11 +65,13 @@ public class JdbcTicketDaoImpl implements TicketDAO {
 
     @Nonnull
     @Override
+    @Transactional
     public Collection<Ticket> getAll() {
         return jdbcTemplate.query("SELECT * FROM tickets", TICKET_ROW_MAPPER);
     }
 
     @Override
+    @Transactional
     public Ticket save(@Nonnull Ticket ticket) {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", ticket.getId())
@@ -90,6 +96,7 @@ public class JdbcTicketDaoImpl implements TicketDAO {
     }
 
     @Override
+    @Transactional
     public void remove(@Nonnull Ticket ticket) {
         jdbcTemplate.update("DELETE FROM tickets WHERE tickets.id=?", ticket.getId());
     }

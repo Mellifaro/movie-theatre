@@ -5,6 +5,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.dao.TotalDiscountInfoDAO;
 import ua.epam.spring.hometask.domain.TotalDiscountInfo;
 
@@ -20,6 +21,7 @@ public class JdbcTotalDiscountInfoDAOImpl implements TotalDiscountInfoDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    @Transactional
     public Optional<TotalDiscountInfo> getByDiscountName(String discountName) {
         try {
             TotalDiscountInfo discountInfo = jdbcTemplate.queryForObject("SELECT * FROM total_discounts " +
@@ -31,6 +33,7 @@ public class JdbcTotalDiscountInfoDAOImpl implements TotalDiscountInfoDAO {
     }
 
     @Override
+    @Transactional
     public TotalDiscountInfo save(TotalDiscountInfo discountInfo) {
         TotalDiscountInfo result = getByDiscountName(discountInfo.getDiscountType().name()).orElse(null);
         if(result == null){
@@ -43,6 +46,7 @@ public class JdbcTotalDiscountInfoDAOImpl implements TotalDiscountInfoDAO {
     }
 
     @Override
+    @Transactional
     public void remove(String discountName) {
         jdbcTemplate.update("DELETE FROM total_discounts WHERE discount_type=?", discountName);
     }

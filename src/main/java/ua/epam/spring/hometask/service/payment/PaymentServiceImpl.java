@@ -3,6 +3,7 @@ package ua.epam.spring.hometask.service.payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.exceptions.NotEnoughMoneyException;
 import ua.epam.spring.hometask.service.user.UserService;
@@ -16,6 +17,7 @@ public class PaymentServiceImpl implements PaymentService{
     private UserService userService;
 
     @Override
+    @Transactional
     public User putMoney(@NonNull User user, Double amount) {
         checkAmountAndUser(user, amount);
         double currentBalance = user.getBalance();
@@ -24,6 +26,7 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
+    @Transactional
     public User withdrawMoney(@NonNull User user, Double amount) {
         checkAmountAndUser(user, amount);
         double currentBalance = user.getBalance();

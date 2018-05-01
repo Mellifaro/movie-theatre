@@ -3,10 +3,10 @@ package ua.epam.spring.hometask.dao.jdbc;
 import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.dao.UserDiscountInfoDAO;
 import ua.epam.spring.hometask.domain.DiscountType;
 import ua.epam.spring.hometask.domain.UserDiscountInfo;
@@ -27,6 +27,7 @@ public class JdbcUserDiscountInfoDAOImpl implements UserDiscountInfoDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    @Transactional
     public Optional<UserDiscountInfo> getByUserId(@Nonnull Long userId) {
         UserDiscountInfo userDiscountInfo = new UserDiscountInfo();
         userDiscountInfo.setUserId(userId);
@@ -35,6 +36,7 @@ public class JdbcUserDiscountInfoDAOImpl implements UserDiscountInfoDAO {
     }
 
     @Override
+    @Transactional
     public UserDiscountInfo save(@Nonnull UserDiscountInfo userDiscountInfo) {
         Long userId = userDiscountInfo.getUserId();
         jdbcTemplate.update("DELETE FROM user_discounts WHERE user_id=?", userId);
@@ -46,11 +48,13 @@ public class JdbcUserDiscountInfoDAOImpl implements UserDiscountInfoDAO {
     }
 
     @Override
+    @Transactional
     public void remove(@Nonnull Long userId, @Nonnull String discountType) {
         jdbcTemplate.update("DELETE FROM user_discounts WHERE user_discounts.user_id=? " +
                 "AND user_discounts.discount_type=?", userId, discountType);
     }
 
+    @Transactional
     private void insertDiscountMap(UserDiscountInfo discountInfo){
         Map<DiscountType, Integer> discountMap = jdbcTemplate.query("SELECT discount_type, amount FROM user_discounts WHERE user_id=?", new ResultSetExtractor<Map<DiscountType, Integer>>() {
             @Override
