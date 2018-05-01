@@ -2,7 +2,7 @@ package ua.epam.spring.hometask.dto;
 
 public class AmountDTO {
     private String email;
-    private float amount;
+    private double amount;
 
     public String getEmail() {
         return email;
@@ -12,11 +12,11 @@ public class AmountDTO {
         this.email = email;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }

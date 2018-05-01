@@ -10,10 +10,10 @@ import ua.epam.spring.hometask.service.dicount.DiscountService;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * @author Viktor Skapoushchenko
@@ -31,8 +31,9 @@ public class BookingServiceImpl implements BookingService {
     private TicketDAO ticketDAO;
 
     @Autowired
-    public BookingServiceImpl(DiscountService discountService, TicketDAO ticketDAO) {
+    public BookingServiceImpl(DiscountService discountService, AuditoriumService auditoriumService, TicketDAO ticketDAO) {
         this.discountService = discountService;
+        this.auditoriumService = auditoriumService;
         this.ticketDAO = ticketDAO;
     }
 
@@ -72,6 +73,31 @@ public class BookingServiceImpl implements BookingService {
         applyVIPSeatPriceChanging(event, dateTime, tickets);
         discountService.applyDiscountsToTickets(user, event, tickets);
         return tickets;
+    }
+
+    @Override
+    public Set<Long> getAllAvailableSeatsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
+        Set<Ticket> tickets = getPurchasedTicketsForEvent(event, dateTime);
+        Auditorium auditorium = event.getAuditoriums().get(dateTime);
+        Set<Long> availableSeats = LongStream.range(1, auditorium.getNumberOfSeats() + 1)
+                .filter(seat -> tickets.stream().noneMatch(ticket -> ticket.getSeat() == seat))
+                .boxed()
+                .collect(Collectors.toSet());
+        return availableSeats;
+    }
+
+    @Override
+    public Set<Long> getAvailableVIPSeats(Set<Long> availableSeats, Auditorium auditorium) {
+        Set<Long> vipSeats = auditorium.getVipSeats();
+        return vipSeats.stream().filter(vipSeat -> availableSeats.stream().anyMatch(vipSeat::equals))
+                                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<Long> getAvailableSimpleSeats(Set<Long> availableSeats, Auditorium auditorium) {
+        Set<Long> vipSeats = auditorium.getVipSeats();
+        return availableSeats.stream().filter(seat -> vipSeats.stream().noneMatch(seat::equals))
+                                      .collect(Collectors.toSet());
     }
 
     private Set<Ticket> applyVIPSeatPriceChanging(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nonnull Set<Ticket> tickets){

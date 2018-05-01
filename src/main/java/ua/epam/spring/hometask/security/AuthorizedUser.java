@@ -47,11 +47,11 @@ public class AuthorizedUser implements UserDetails {
         return true;
     }
 
-    public float getBalance(){
+    public double getBalance(){
         return user.getBalance();
     }
 
-    public void setBalance(float balance){
+    public void setBalance(double balance){
         user.setBalance(balance);
     }
 }

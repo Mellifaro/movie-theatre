@@ -6,7 +6,7 @@
                         </@security.authorize>
                             <li class="nav-item"><a class="nav-link" href="<@spring.url '/events'/>"><strong>Events</strong></a></li>
                         <@security.authorize access="isAuthenticated()">
-                            <li class="nav-item"><a class="nav-link" href="#"><strong>Tickets</strong></a></li>
+                            <li class="nav-item"><a class="nav-link" href="<@spring.url '/tickets'/>"><strong>Tickets</strong></a></li>
                         </@security.authorize>
                         <@security.authorize access="hasRole('ROLE_ADMIN')">
                             <li class="nav-item"><a class="nav-link" href="<@spring.url '/users'/>"><strong>Users</strong></a></li>

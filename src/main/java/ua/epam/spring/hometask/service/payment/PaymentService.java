@@ -5,7 +5,7 @@ import ua.epam.spring.hometask.domain.User;
 
 public interface PaymentService {
 
-    User putMoney(@NonNull User user, Float amount);
+    User putMoney(@NonNull User user, Double amount);
 
-    User withdrawMoney(@NonNull User user, Float amount);
+    User withdrawMoney(@NonNull User user, Double amount);
 }

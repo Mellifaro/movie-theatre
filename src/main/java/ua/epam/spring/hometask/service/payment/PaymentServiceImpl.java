@@ -16,17 +16,17 @@ public class PaymentServiceImpl implements PaymentService{
     private UserService userService;
 
     @Override
-    public User putMoney(@NonNull User user, Float amount) {
+    public User putMoney(@NonNull User user, Double amount) {
         checkAmountAndUser(user, amount);
-        float currentBalance = user.getBalance();
+        double currentBalance = user.getBalance();
         user.setBalance(currentBalance + amount);
         return userService.save(user);
     }
 
     @Override
-    public User withdrawMoney(@NonNull User user, Float amount) {
+    public User withdrawMoney(@NonNull User user, Double amount) {
         checkAmountAndUser(user, amount);
-        float currentBalance = user.getBalance();
+        double currentBalance = user.getBalance();
         if(amount > currentBalance){
             throw new NotEnoughMoneyException("Amount for withdraw is bigger than current balance");
         }
@@ -34,7 +34,7 @@ public class PaymentServiceImpl implements PaymentService{
         return userService.save(user);
     }
 
-    private void checkAmountAndUser(@NonNull User user, Float amount){
+    private void checkAmountAndUser(@NonNull User user, Double amount){
         Objects.requireNonNull(user, "User must not be null");
         Objects.requireNonNull(user, "Amount of money must not be null");
         if(amount < 0){

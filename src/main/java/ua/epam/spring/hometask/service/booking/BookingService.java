@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.springframework.lang.NonNull;
+import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
@@ -46,4 +48,10 @@ public interface BookingService {
      * @return set of tickets
      */
     @Nonnull Set<Ticket> getTicketsFromSeats(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats);
+
+    @NonNull Set<Long> getAllAvailableSeatsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime);
+
+    @NonNull Set<Long> getAvailableVIPSeats(Set<Long> availableSeats, Auditorium auditorium);
+
+    @NonNull Set<Long> getAvailableSimpleSeats(Set<Long> availableSeats, Auditorium auditorium);
 }
