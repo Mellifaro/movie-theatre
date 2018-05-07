@@ -25,8 +25,9 @@
                             <input type="checkbox" name="remember-me" id="remember-me"/>
                         </div>
                         <button class="btn btn-outline-primary my-2 my-sm-0 button-marg type="submit">Sign in</button>
-                        <a class="btn btn-outline-primary my-2 my-sm-0 button-marg" role="button" href="#">Register &raquo;</a>
+
                     </form>
+                        <button id="registerButton" class="btn btn-outline-primary my-2 my-sm-0 button-marg">Register</button>
                     </@security.authorize>
 
                     <@security.authorize access="isAuthenticated()">

@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.epam.spring.hometask.domain.Role;
 import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.dto.UserDTO;
 import ua.epam.spring.hometask.service.user.UserService;
+import ua.epam.spring.hometask.util.UserUtils;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -23,11 +25,12 @@ import java.util.List;
 public class UserController{
 
     private UserService userService;
+    private UserUtils userUtils;
     private ObjectMapper objectMapper;
 
-    @Autowired
-    public UserController(UserService userService, ObjectMapper objectMapper) {
+    public UserController(UserService userService, UserUtils userUtils, ObjectMapper objectMapper) {
         this.userService = userService;
+        this.userUtils = userUtils;
         this.objectMapper = objectMapper;
     }
 
@@ -36,6 +39,12 @@ public class UserController{
         List<User> users = (List<User>)userService.getAll();
         modelMap.put("users", users);
         return "users";
+    }
+
+    @PostMapping(value = "/register")
+    public void register(@RequestBody UserDTO userDTO){
+        User user = userUtils.getUserFromDTO(userDTO);
+        userService.save(user);
     }
 
     @PostMapping(value = "/uploadFile")
@@ -50,10 +59,5 @@ public class UserController{
             return "redirect:/users";
         }
         return "redirect:/error";
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 }

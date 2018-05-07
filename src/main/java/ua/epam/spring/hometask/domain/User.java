@@ -27,6 +27,7 @@ public class User extends DomainObject {
     private NavigableSet<Ticket> tickets = new TreeSet<>();
 
     public User() {
+        setRoles(EnumSet.of(Role.ROLE_USER));
     }
 
     public User(String firstName, String lastName, String email, LocalDate birthday) {

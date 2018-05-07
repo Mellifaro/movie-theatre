@@ -41,5 +41,6 @@
             <script type="text/javascript" src="<@spring.url '/webjars/bootstrap/4.1.0/js/bootstrap.min.js'/>"></script>
             <script type="text/javascript" src="<@spring.url '/resources/js/myAccount.js'/>"></script>
         </div>
+
     </body>
 </html>
