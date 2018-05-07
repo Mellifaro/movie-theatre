@@ -2,7 +2,7 @@ package ua.epam.spring.hometask.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -41,10 +41,18 @@ public class UserController{
         return "users";
     }
 
-    @PostMapping(value = "/register")
-    public void register(@RequestBody UserDTO userDTO){
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String register(UserDTO userDTO){
         User user = userUtils.getUserFromDTO(userDTO);
         userService.save(user);
+        return "redirect:/events";
+    }
+
+    //Post is used here because of the occured problems with DELETE method(409 code after redirect to /users)
+    @PostMapping(value = "/delete/{id}")
+    public String deleteById(@PathVariable("id") long id){
+        userService.remove(userService.getById(id));
+        return "redirect:/users";
     }
 
     @PostMapping(value = "/uploadFile")

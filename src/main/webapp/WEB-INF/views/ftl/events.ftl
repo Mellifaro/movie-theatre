@@ -42,9 +42,6 @@
                 <input type="file" name="file" />
                 <input type="submit" value="Upload">
             </form>
-            <script type="text/javascript" src="<@spring.url '/webjars/jquery/3.3.1-1/jquery.min.js'/>"></script>
-            <script type="text/javascript" src="<@spring.url '/webjars/bootstrap/4.1.0/js/bootstrap.min.js'/>"></script>
-                <script type="text/javascript" src="<@spring.url '/resources/js/events.js'/>"></script>
         </div>
 
         <div class="modal fade" id="editRow">
@@ -55,19 +52,19 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form:form class="form-horizontal"action="<@spring.url '/users/register'/>" method="post" id="detailsForm" >
+                        <form class="form-horizontal" action="<@spring.url '/users/register'/>" method="post" id="detailsForm" >
 
                             <div class="form-group">
                                 <label for="first_name" class="control-label col-xs-3">First name</label>
                                 <div class="col-xs-9">
-                                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First name">
+                                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First name">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="last_name" class="control-label col-xs-3">Last name</label>
                                 <div class="col-xs-9">
-                                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name">
+                                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name">
                                 </div>
                             </div>
 
@@ -99,10 +96,14 @@
                                     <button type="submit" class="btn btn-primary">Register</button>
                                 </div>
                             </div>
-                        </form:form>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript" src="<@spring.url '/webjars/jquery/3.3.1-1/jquery.min.js'/>"></script>
+        <script type="text/javascript" src="<@spring.url '/webjars/bootstrap/4.1.0/js/bootstrap.min.js'/>"></script>
+        <script type="text/javascript" src="<@spring.url '/resources/js/events.js'/>"></script>
     </body>
 </html>

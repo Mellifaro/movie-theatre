@@ -1,9 +1,6 @@
 package ua.epam.spring.hometask.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import ua.epam.spring.hometask.util.LocalDateDeserializer;
-import ua.epam.spring.hometask.util.LocalDateSerializer;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -14,8 +11,7 @@ public class UserDTO {
     private String email;
     private String password;
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthday;
 
     public String getFirstName() {
