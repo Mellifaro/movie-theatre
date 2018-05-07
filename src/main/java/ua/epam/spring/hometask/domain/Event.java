@@ -1,5 +1,10 @@
 package ua.epam.spring.hometask.domain;
 
+import ua.epam.spring.hometask.util.SetLocalDateTimeXmlAdapter;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.NavigableMap;
@@ -11,6 +16,7 @@ import java.util.TreeSet;
 /**
  * @author Viktor Skapoushchenko
  */
+@XmlRootElement
 public class Event extends DomainObject {
 
     private String name;
@@ -127,6 +133,7 @@ public class Event extends DomainObject {
         this.name = name;
     }
 
+    @XmlJavaTypeAdapter(value = SetLocalDateTimeXmlAdapter.class)
     public NavigableSet<LocalDateTime> getAirDates() {
         return airDates;
     }
@@ -151,6 +158,7 @@ public class Event extends DomainObject {
         this.rating = rating;
     }
 
+    @XmlTransient
     public NavigableMap<LocalDateTime, Auditorium> getAuditoriums() {
         return auditoriums;
     }
