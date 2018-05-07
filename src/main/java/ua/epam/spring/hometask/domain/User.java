@@ -5,13 +5,20 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.util.CollectionUtils;
 import ua.epam.spring.hometask.util.LocalDateDeserializer;
 import ua.epam.spring.hometask.util.LocalDateSerializer;
+import ua.epam.spring.hometask.util.LocaleDateXmlAdapter;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
 import java.time.LocalDate;
 import java.util.*;
 
 /**
  * @author Viktor Skapoushchenko
  */
+@XmlRootElement
 public class User extends DomainObject {
 
     private String firstName;
@@ -24,6 +31,7 @@ public class User extends DomainObject {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthday;
+
     private NavigableSet<Ticket> tickets = new TreeSet<>();
 
     public User() {
@@ -70,6 +78,7 @@ public class User extends DomainObject {
         this.email = email;
     }
 
+    @XmlJavaTypeAdapter(value = LocaleDateXmlAdapter.class)
     public LocalDate getBirthday() {
         return birthday;
     }
@@ -102,6 +111,7 @@ public class User extends DomainObject {
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
     }
 
+    @XmlTransient
     public NavigableSet<Ticket> getTickets() {
         return tickets;
     }
