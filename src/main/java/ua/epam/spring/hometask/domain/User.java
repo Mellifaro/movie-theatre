@@ -7,11 +7,8 @@ import ua.epam.spring.hometask.util.LocalDateDeserializer;
 import ua.epam.spring.hometask.util.LocalDateSerializer;
 import ua.epam.spring.hometask.util.LocaleDateXmlAdapter;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -19,13 +16,14 @@ import java.util.*;
  * @author Viktor Skapoushchenko
  */
 @XmlRootElement
+@XmlType(name = "user", namespace = "http://epam.com/soap")
 public class User extends DomainObject {
-
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private double balance;
+
     private Set<Role> roles;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -103,6 +101,7 @@ public class User extends DomainObject {
         this.balance = balance;
     }
 
+    @XmlTransient
     public Set<Role> getRoles() {
         return roles;
     }

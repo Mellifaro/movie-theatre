@@ -1,0 +1,98 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://epam.com/soap"
+           targetNamespace="http://epam.com/soap"
+           elementFormDefault="qualified">
+
+  <xs:element name="user" type="tns:user"/>
+
+  <xs:element name="getAllUsersRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="getAllUsersRequest" minOccurs="0" type="tns:void"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getAllUsersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="user" minOccurs="0" maxOccurs="unbounded" type="tns:user"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getUserByIdRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:long" minOccurs="0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getUserByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="user" type="tns:user"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="addUserRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="user" type="tns:user"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="addUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="addUserResponse" minOccurs="0" type="tns:void"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="deleteUserRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:long"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="deleteUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="deleteUserResponse" minOccurs="0" type="tns:void"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="user">
+    <xs:complexContent>
+      <xs:extension base="tns:domainObject">
+        <xs:sequence>
+          <xs:element name="balance" type="xs:double"/>
+          <xs:element name="birthday" type="xs:string" minOccurs="0"/>
+          <xs:element name="email" type="xs:string" minOccurs="0"/>
+          <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+          <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+          <xs:element name="password" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="domainObject">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="void">
+    <xs:sequence>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
