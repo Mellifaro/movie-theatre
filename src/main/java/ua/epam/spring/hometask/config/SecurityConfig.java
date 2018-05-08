@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/users/register").permitAll()
+                    .antMatchers("/soapws/**").permitAll()
                     .antMatchers("/users/delete/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
