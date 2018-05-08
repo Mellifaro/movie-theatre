@@ -1,8 +1,13 @@
 package ua.epam.spring.hometask.domain;
 
-/**
- * @author Viktor Skapoushchenko
- */
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
+
+
+@XmlType(name = "domainObject")
+@XmlSeeAlso({
+        User.class
+})
 public class DomainObject {
 
     private Long id;
