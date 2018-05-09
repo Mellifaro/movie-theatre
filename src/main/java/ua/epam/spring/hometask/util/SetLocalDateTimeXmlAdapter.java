@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SetLocalDateTimeXmlAdapter extends XmlAdapter<HashSet<String>, NavigableSet<LocalDateTime>> {
+public class SetLocalDateTimeXmlAdapter extends XmlAdapter<ArrayList<String>, NavigableSet<LocalDateTime>> {
     @Override
-    public TreeSet<LocalDateTime> unmarshal(HashSet<String> v) throws Exception {
+    public TreeSet<LocalDateTime> unmarshal(ArrayList<String> v) throws Exception {
         return v.stream()
                 .map(LocalDateTime::parse)
                 .collect(Collectors.toCollection(() -> new TreeSet<>((o1, o2) -> {
@@ -22,9 +22,9 @@ public class SetLocalDateTimeXmlAdapter extends XmlAdapter<HashSet<String>, Navi
     }
 
     @Override
-    public HashSet<String> marshal(NavigableSet<LocalDateTime> v) throws Exception {
+    public ArrayList<String> marshal(NavigableSet<LocalDateTime> v) throws Exception {
         return v.stream()
                 .map(LocalDateTime::toString)
-                .collect(Collectors.toCollection(HashSet::new));
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }
