@@ -1,12 +1,14 @@
 package ua.epam.spring.hometask.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * @author Viktor Skapoushchenko
  */
-public class Ticket extends DomainObject implements Comparable<Ticket> {
+public class Ticket extends DomainObject implements Comparable<Ticket>, Serializable {
+    private static final long serialVersionUID = 4016543383852505460L;
 
     private Long userId;
     private Long eventId;
@@ -122,4 +124,17 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "\n userId=" + userId +
+                ",\n eventId=" + eventId +
+                ",\n dateTime=" + dateTime +
+                ",\n seat=" + seat +
+                ",\n price=" + price +
+                ",\n discount=" + discount +
+                ",\n discountType=" + discountType +
+                ",\n bookingDateTime=" + bookingDateTime +
+                "\n" + '}';
+    }
 }

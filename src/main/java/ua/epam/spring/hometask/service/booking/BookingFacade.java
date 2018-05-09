@@ -3,6 +3,7 @@ package ua.epam.spring.hometask.service.booking;
 import org.springframework.lang.NonNull;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 
 import javax.annotation.Nonnull;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 public interface BookingFacade {
 
-    void bookTickets(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats);
+    Set<Ticket> bookTickets(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats);
 
     @NonNull Set<Long> getAllAvailableSeatsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime);
 

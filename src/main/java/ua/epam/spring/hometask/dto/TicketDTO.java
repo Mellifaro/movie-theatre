@@ -113,4 +113,19 @@ public class TicketDTO {
 
         return Objects.hash(event, dateTime, seat);
     }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                ",\n userId: " + userId +
+                ",\n eventName: " + event.getName() +
+                ",\n dateTime: \'" + dateTime + '\'' +
+                ",\n auditorium: " + auditorium.getName() +
+                ",\n seat: " + seat +
+                ",\n price: " + price +
+                ",\n discount: " + discount +
+                ",\n discountType: " + discountType +
+                ",\n bookingDateTime: \'" + bookingDateTime + '\'' +
+                "\n}";
+    }
 }
