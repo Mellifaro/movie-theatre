@@ -13,7 +13,7 @@ import ua.epam.spring.hometask.domain.User;
 
 public class ItextPdfView extends AbstractITextPdfView {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
     protected void buildPdfDocument(Map<String, Object> model,

@@ -4,12 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
-import ua.epam.spring.hometask.controller.views.ItextPdfView;
+import java.util.List;
 
 /**
  * Created by Viktor_Skapoushchenk on 4/23/2018.
@@ -27,21 +28,17 @@ public class WebConfig implements WebMvcConfigurer{
     }
 
     @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer
-                .defaultContentType(MediaType.TEXT_HTML)
-                .parameterName("mediaType")
-                .ignoreAcceptHeader(true)
-                .mediaType("pdf", MediaType.APPLICATION_PDF);
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(new MappingJackson2HttpMessageConverter());
+        converters.add(new PdfTicketMessageConverter());
+
     }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.freeMarker();
-        registry.enableContentNegotiation(
-                new ItextPdfView()
-        );
     }
+
 
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver multipartResolver(){

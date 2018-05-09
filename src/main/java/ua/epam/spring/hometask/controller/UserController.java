@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import ua.epam.spring.hometask.controller.views.ItextPdfView;
 import ua.epam.spring.hometask.domain.Role;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.dto.UserDTO;
@@ -39,6 +41,14 @@ public class UserController{
         List<User> users = (List<User>)userService.getAll();
         modelMap.put("users", users);
         return "users";
+    }
+
+    @GetMapping(value = "/pdf")
+    public ModelAndView getAllUsersPdf(ModelAndView modelAndView){
+        List<User> users = (List<User>)userService.getAll();
+        modelAndView.getModelMap().put("users", users);
+        modelAndView.setView(new ItextPdfView());
+        return modelAndView;
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)

@@ -7,7 +7,6 @@ import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.payment.PaymentService;
-import ua.epam.spring.hometask.service.user.UserService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,22 +18,21 @@ public class BookingFacadeImpl implements BookingFacade{
 
     private BookingService bookingService;
     private PaymentService paymentService;
-    private UserService userService;
 
-    public BookingFacadeImpl(BookingService bookingService, PaymentService paymentService, UserService userService) {
+    public BookingFacadeImpl(BookingService bookingService, PaymentService paymentService) {
         this.bookingService = bookingService;
         this.paymentService = paymentService;
-        this.userService = userService;
     }
 
     @Override
     @Transactional
-    public void bookTickets(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
+    public Set<Ticket> bookTickets(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
         Set<Ticket> tickets = bookingService.getTicketsFromSeats(event, dateTime, user, seats);
         Double price = bookingService.getTicketsPrice(tickets);
         bookingService.bookTickets(tickets);
         user.getTickets().addAll(tickets);
         paymentService.withdrawMoney(user, price);
+        return tickets;
     }
 
     @Override
