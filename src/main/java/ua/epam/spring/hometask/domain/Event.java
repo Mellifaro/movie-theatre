@@ -4,6 +4,7 @@ import ua.epam.spring.hometask.util.SetLocalDateTimeXmlAdapter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.util.TreeSet;
  * @author Viktor Skapoushchenko
  */
 @XmlRootElement
+@XmlType(name = "event", namespace = "http://epam.com/soap")
 public class Event extends DomainObject {
 
     private String name;
