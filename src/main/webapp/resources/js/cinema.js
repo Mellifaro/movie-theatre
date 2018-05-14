@@ -1,6 +1,7 @@
-const bookUrl = "/movie/book/";
-const eventsUrl = "/movie/events";
-const deleteDateURL = "/movie/events/date/delete";
+const contextUrl = "/movie";
+const bookUrl = contextUrl + "/book/";
+const eventsUrl = contextUrl + "/events";
+const deleteDateURL = contextUrl + "/events/date/delete";
 
 $(function(){
     onClickSeat();
@@ -78,7 +79,7 @@ function onRemoveDateButton() {
                     eventId: eventId,
                     eventTime: eventTime,
                 }),
-                method: 'POST',
+                method: 'DELETE',
                 success: function () {
                     location.href = window.location.protocol + "//" + window.location.host + eventsUrl;
                 }

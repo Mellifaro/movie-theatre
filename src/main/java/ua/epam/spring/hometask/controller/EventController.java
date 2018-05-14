@@ -3,6 +3,7 @@ package ua.epam.spring.hometask.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,6 +29,7 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = "/events")
 public class EventController {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
     private EventService eventService;
     private BookingFacade bookingFacade;
@@ -52,8 +54,7 @@ public class EventController {
 
     @GetMapping(value = "/{id}/date/{datetime}")
     public String getEventByIdAndDate(ModelMap modelMap, @PathVariable("id") long id, @PathVariable("datetime") String dateTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        LocalDateTime eventTime = LocalDateTime.parse(dateTime, formatter);
+        LocalDateTime eventTime = LocalDateTime.parse(dateTime, DATE_TIME_FORMATTER);
         Event event = eventService.getById(id);
         Auditorium auditorium = event.getAuditoriums().get(eventTime);
         Set<Long> allAvailableSeats = bookingFacade.getAllAvailableSeatsForEvent(event, eventTime);
@@ -67,8 +68,7 @@ public class EventController {
 
     @GetMapping(value = "/{id}/date/{datetime}/visual")
     public String getEventByIdAndDateVisual(ModelMap modelMap, @PathVariable("id") long id, @PathVariable("datetime") String dateTime) throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        LocalDateTime eventTime = LocalDateTime.parse(dateTime, formatter);
+        LocalDateTime eventTime = LocalDateTime.parse(dateTime, DATE_TIME_FORMATTER);
         Event event = eventService.getById(id);
         Auditorium auditorium = event.getAuditoriums().get(eventTime);
         AuditoriumDTO auditoriumDTO = auditoriumService.getWithPurchasedSeats(auditorium, bookingFacade.getPurchasedTicketsForEvent(event, eventTime));
@@ -98,20 +98,17 @@ public class EventController {
         return "redirect:/events";
     }
 
-    //Post is used here because of the occured problems with DELETE method(409 code after redirect to /users)
-    @PostMapping(value = "/delete/{id}")
-    public String deleteById(@PathVariable("id") long id){
+    @DeleteMapping(value = "/delete/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteById(@PathVariable("id") long id){
         eventService.remove(eventService.getById(id));
-        return "redirect:/events";
     }
 
-    //Post is used here because of the occured problems with DELETE method(409 code after redirect to /users)
-    @PostMapping(value = "/date/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
+    @DeleteMapping(value = "/date/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
     public void deleteDateForEvent(@RequestBody RemoveDateDTO removeDateDTO){
         Event event = eventService.getById(removeDateDTO.getEventId());
         event.removeAirDateTime(removeDateDTO.getEventTime());
-        eventService.save(event);
         eventService.save(event);
     }
 
@@ -125,5 +122,4 @@ public class EventController {
         }
         return "redirect:/error";
     }
-
 }

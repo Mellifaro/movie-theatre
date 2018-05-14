@@ -2,7 +2,7 @@ package ua.epam.spring.hometask.controller.rest.requests;
 
 import java.time.LocalDateTime;
 
-public class BookingTciketsRequest {
+public class BookingTicketsRequest {
     private String seats;
     private LocalDateTime dateTime;
     private Long eventId;

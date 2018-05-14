@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
-import ua.epam.spring.hometask.controller.rest.requests.BookingTciketsRequest;
+import ua.epam.spring.hometask.controller.rest.requests.BookingTicketsRequest;
 import ua.epam.spring.hometask.service.booking.BookingFacade;
 import ua.epam.spring.hometask.service.event.EventService;
 import ua.epam.spring.hometask.service.user.UserService;
@@ -31,7 +31,7 @@ public class BookingRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Set<Ticket> bookTickets(@RequestBody BookingTciketsRequest request){
+    public Set<Ticket> bookTickets(@RequestBody BookingTicketsRequest request){
         Event event = eventService.getById(request.getEventId());
         Set<Long> listSeats = SeatParsingUtils.parseString(request.getSeats());
         User user = userService.getById(request.getUserId());

@@ -1,5 +1,6 @@
-const deleteIconActive = "/movie/resources/images/delete-active.svg";
-const deleteIconNotActive = "/movie/resources/images/delete-notactive.svg";
+const contextUrl = "/movie";
+const deleteIconActive = contextUrl + "/resources/images/delete-active.svg";
+const deleteIconNotActive = contextUrl + "/resources/images/delete-notactive.svg";
 const deleteURL = "users/delete/";
 
 $(function(){
@@ -13,7 +14,7 @@ function onRemoveButton(){
             console.log(id);
             $.ajax({
                 url: deleteURL + id,
-                method: 'POST',
+                method: 'DELETE',
                 success: function () {
                     location.reload();
                 }
