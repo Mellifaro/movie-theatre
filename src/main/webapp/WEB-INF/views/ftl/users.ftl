@@ -37,10 +37,12 @@
                      </tbody>
                 </table>
 
-            <form method="POST" action="<@spring.url '/users/uploadFile'/>" enctype="multipart/form-data" >
-                <input type="file" name="file" />
-                <input type="submit" value="Upload">
-            </form>
+            <@security.authorize access="hasRole('ROLE_ADMIN')">
+                <form method="POST" action="<@spring.url '/users/uploadFile'/>" enctype="multipart/form-data" >
+                    <input type="file" name="file" />
+                    <input type="submit" value="Upload">
+                </form>
+            </@security.authorize>
         </div>
 
         <script type="text/javascript" src="<@spring.url '/webjars/jquery/3.3.1-1/jquery.min.js'/>"></script>

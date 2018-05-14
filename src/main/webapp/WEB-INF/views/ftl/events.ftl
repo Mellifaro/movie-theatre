@@ -50,10 +50,12 @@
                 </tbody>
             </table>
 
+        <@security.authorize access="hasRole('ROLE_ADMIN')">
             <form method="POST" action="<@spring.url '/events/uploadFile'/>" enctype="multipart/form-data" >
                 <input type="file" name="file" />
                 <input type="submit" value="Upload">
             </form>
+        </@security.authorize>
         </div>
 
         <div class="modal fade" id="editRow">
