@@ -50,4 +50,10 @@ public class BookingFacadeImpl implements BookingFacade{
     public Set<Long> getAvailableSimpleSeats(Set<Long> availableSeats, Auditorium auditorium) {
         return bookingService.getAvailableSimpleSeats(availableSeats, auditorium);
     }
+
+    @Nonnull
+    @Override
+    public Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
+        return bookingService.getPurchasedTicketsForEvent(event, dateTime);
+    }
 }

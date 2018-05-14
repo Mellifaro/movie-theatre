@@ -35,6 +35,9 @@
                         </button>
                     </form>
                 </div>
+                <div id="back-href" class="back-href">
+                    <a href="<@spring.url '/events/${event.id}/date/${eventTime}/visual'/>">Visual interface</a>
+                </div>
             </div>
 
             <script type="text/javascript" src="<@spring.url '/webjars/jquery/3.3.1-1/jquery.min.js'/>"></script>

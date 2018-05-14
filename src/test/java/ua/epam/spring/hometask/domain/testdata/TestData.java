@@ -40,8 +40,8 @@ public class TestData {
         user.setPassword("$2a$04$7Vz1Ets3LK50fTy0GZNE6.kHfG7q9SEje..ZNx13ojdsp6n44Jm..");
 
         //creating auditoriums
-        greenAuditorium = new Auditorium("green", 50, Stream.of(10L, 11L, 12L).collect(Collectors.toSet()));
-        redAuditorium = new Auditorium("red", 75, Stream.of(5L, 6L, 7L, 8L).collect(Collectors.toSet()));
+        greenAuditorium = new Auditorium("green", 48, Stream.of(27L, 28L, 29L, 30L, 35L, 36L, 37L, 38L).collect(Collectors.toSet()));
+        redAuditorium = new Auditorium("red", 60, Stream.of(33L, 34L, 35L, 36L, 37L, 38L, 43L, 44L, 45L, 46L, 47L, 48L).collect(Collectors.toSet()));
 
         //creating events
         theLordOfRings = new Event("The Lord Of The Rings", 65.00, EventRating.HIGH);

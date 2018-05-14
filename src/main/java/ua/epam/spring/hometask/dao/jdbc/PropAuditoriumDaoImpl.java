@@ -4,6 +4,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import ua.epam.spring.hometask.dao.AuditoriumDAO;
 import ua.epam.spring.hometask.domain.Auditorium;
+import ua.epam.spring.hometask.dto.Seat;
+import ua.epam.spring.hometask.dto.SeatStatus;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -19,6 +21,7 @@ public class PropAuditoriumDaoImpl implements AuditoriumDAO {
 
     private final String SEATS_AMOUNT = ".seats.amount";
     private final String SEATS_VIP = ".seats.vip";
+    private final String SEATS_MATRIX = ".seats.matrix";
     private final String PROPS_PATH = "/auditorium.properties";
     private final String AUDITORIUM_NAMES = "auditorium.names";
 
@@ -53,6 +56,27 @@ public class PropAuditoriumDaoImpl implements AuditoriumDAO {
         return Arrays.stream(vip.split(","))
                 .map(Long::valueOf)
                 .collect(Collectors.toSet());
+    }
+
+    public List<List<Seat>> getSeatMatrix(String auditoriumName) throws IOException {
+        Properties props = getDataFromProperties();
+        String matrixPropery = props.getProperty(auditoriumName + SEATS_MATRIX);
+        Set<Long> vipSeats = getVipSeats(props.getProperty(auditoriumName + SEATS_VIP));
+
+        List<List<Seat>> seatMatrix = new ArrayList<>();
+        Arrays.asList(matrixPropery.split(";")).forEach(raw -> {
+            List<Seat> rawSeats = new ArrayList<>();
+            Arrays.asList(raw.split(",")).forEach(seatNumberStr -> {
+                Long seatNumber = Long.parseLong(seatNumberStr);
+                Seat seat = new Seat(seatNumber);
+                if(vipSeats.contains(seatNumber)){
+                    seat.setCurrentStatus(SeatStatus.VIP);
+                }
+                rawSeats.add(seat);
+            });
+            seatMatrix.add(rawSeats);
+        });
+        return seatMatrix;
     }
 
     private Auditorium getAuditoriumByName(String name, Properties props){

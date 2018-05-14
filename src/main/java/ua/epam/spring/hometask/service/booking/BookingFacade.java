@@ -21,4 +21,6 @@ public interface BookingFacade {
     @NonNull Set<Long> getAvailableVIPSeats(Set<Long> availableSeats, Auditorium auditorium);
 
     @NonNull Set<Long> getAvailableSimpleSeats(Set<Long> availableSeats, Auditorium auditorium);
+
+    @Nonnull Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime);
 }

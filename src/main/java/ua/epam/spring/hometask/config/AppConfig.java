@@ -29,8 +29,7 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = {
         "ua.epam.spring.hometask.aspects",
         "ua.epam.spring.hometask.dao",
-        "ua.epam.spring.hometask.service",
-        "ua.epam.spring.hometask.util"
+        "ua.epam.spring.hometask.service"
 })
 @EnableAspectJAutoProxy
 @EnableTransactionManagement

@@ -48,7 +48,7 @@ public class JdbcBookingServiceTest {
     @Test
     public void testGetTicketsPrice(){
         Set<Ticket> tickets = bookingService.getTicketsFromSeats(theLordOfRings, firstEventFirstDate, admin,
-                Stream.of(12L, 21L, 22L, 23L, 24L, 25L, 26L, 27L, 28L, 29L).collect(Collectors.toSet()));
+                Stream.of(12L, 21L, 22L, 23L, 24L, 25L, 26L, 27L, 42L, 43L).collect(Collectors.toSet()));
         Double finalPrice = bookingService.getTicketsPrice(tickets);
         Double basePriceForTicket = theLordOfRings.getBasePrice() * 1.2;
         Double expectedResult = basePriceForTicket * 8 + basePriceForTicket * 2 + basePriceForTicket * 0.5;
