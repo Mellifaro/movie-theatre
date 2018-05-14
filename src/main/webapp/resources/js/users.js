@@ -3,10 +3,10 @@ const deleteIconNotActive = "/movie/resources/images/delete-notactive.svg";
 const deleteURL = "users/delete/";
 
 $(function(){
-    onEditHover();
+    onRemoveButton();
 });
 
-function onEditHover(){
+function onRemoveButton(){
     $(".delete-icon").on({
         "click" : function () {
             let id = $(this).closest('tr').find('td.id').html();

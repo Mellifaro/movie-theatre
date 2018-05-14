@@ -14,7 +14,7 @@
                 <input type="number" step="0.01" class="form-control marg-15" id="accountUAH" name="accountUAH" placeholder="0.00">
             </div>
             <button class="btn btn-outline-primary my-2 my-sm-0 user-style marg-20" id="putMoneyButton">Put</button>
-            <button class="btn btn-outline-primary my-2 my-sm-0 user-style" id="withdrawMoneyButton">Withdraw</button>
+            <button class="btn btn-outline-danger my-2 my-sm-0 user-style" id="withdrawMoneyButton">Withdraw</button>
         </div>
 
         <script type="text/javascript" src="<@spring.url '/webjars/jquery/3.3.1-1/jquery.min.js'/>"></script>

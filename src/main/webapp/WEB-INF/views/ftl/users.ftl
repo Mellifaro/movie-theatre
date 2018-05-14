@@ -17,7 +17,7 @@
                         <th>Email</th>
                         <th>Birthday</th>
                         <#--<th>Edit</th>-->
-                        <th>Delete</th>
+                        <th class="allign-text-center">Remove</th>
                     </tr>
                     </thead>
 
@@ -31,7 +31,7 @@
                              <td class="email">${user.email}</td>
                              <td>${user.birthday}</td>
                              <#--<td><img class="edit-icon" src="<@spring.url '/resources/images/edit-notactive.svg'/>"></td>-->
-                             <td><img class="delete-icon" src="<@spring.url '/resources/images/delete-notactive.svg'/>"></td>
+                             <td align="center"><img class="delete-icon" src="<@spring.url '/resources/images/delete-notactive.svg'/>"></td>
                          </tr>
                          </#list>
                      </tbody>

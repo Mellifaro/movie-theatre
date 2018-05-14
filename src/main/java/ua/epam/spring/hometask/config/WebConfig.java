@@ -17,7 +17,10 @@ import java.util.List;
  */
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = "ua.epam.spring.hometask.controller")
+@ComponentScan(basePackages = {
+        "ua.epam.spring.hometask.controller",
+        "ua.epam.spring.hometask.util"
+})
 @Import(value = {AppConfig.class, SecurityConfig.class})
 public class WebConfig implements WebMvcConfigurer{
 
