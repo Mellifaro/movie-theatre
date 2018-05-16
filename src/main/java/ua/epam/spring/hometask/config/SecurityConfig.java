@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    public static final String EVENT_URL = "/events";
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -35,13 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/events")
+                    .loginPage(EVENT_URL)
                     .permitAll()
-                    .defaultSuccessUrl("/events", true)
+                    .defaultSuccessUrl(EVENT_URL, true)
                     .failureUrl("/events?error=true")
                 .and()
                     .logout()
-                    .logoutSuccessUrl("/events")
+                    .logoutSuccessUrl(EVENT_URL)
                 .and()
                     .rememberMe()
                     .key("remember-me")

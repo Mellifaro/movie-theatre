@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.dao;
 
-import com.sun.org.apache.xpath.internal.operations.String;
 import ua.epam.spring.hometask.domain.UserDiscountInfo;
 
 import javax.annotation.Nonnull;

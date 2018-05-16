@@ -1,8 +1,6 @@
 package ua.epam.spring.hometask.dao.jdbc;
 
-import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
@@ -55,10 +53,10 @@ public class JdbcUserDiscountInfoDAOImpl implements UserDiscountInfoDAO {
     }
 
     @Transactional
-    private void insertDiscountMap(UserDiscountInfo discountInfo){
+    public void insertDiscountMap(UserDiscountInfo discountInfo){
         Map<DiscountType, Integer> discountMap = jdbcTemplate.query("SELECT discount_type, amount FROM user_discounts WHERE user_id=?", new ResultSetExtractor<Map<DiscountType, Integer>>() {
             @Override
-            public Map<DiscountType, Integer> extractData(ResultSet rs) throws SQLException, DataAccessException {
+            public Map<DiscountType, Integer> extractData(ResultSet rs) throws SQLException {
                 Map<DiscountType, Integer> resSet = new HashMap<>();
                 while (rs.next()) {
                     resSet.put(DiscountType.valueOf(rs.getString("discount_type")),

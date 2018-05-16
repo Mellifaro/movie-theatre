@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.dao.TicketDAO;
 import ua.epam.spring.hometask.domain.*;
-import ua.epam.spring.hometask.service.auditorium.AuditoriumService;
 import ua.epam.spring.hometask.service.dicount.DiscountService;
 
 import javax.annotation.Nonnull;
@@ -28,13 +27,11 @@ public class BookingServiceImpl implements BookingService {
     private static final Double VIP_SEAT_MULTIPLIER = 2.0;
 
     private DiscountService discountService;
-    private AuditoriumService auditoriumService;
     private TicketDAO ticketDAO;
 
     @Autowired
-    public BookingServiceImpl(DiscountService discountService, AuditoriumService auditoriumService, TicketDAO ticketDAO) {
+    public BookingServiceImpl(DiscountService discountService, TicketDAO ticketDAO) {
         this.discountService = discountService;
-        this.auditoriumService = auditoriumService;
         this.ticketDAO = ticketDAO;
     }
 
@@ -45,7 +42,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional
-    //todo rewrite with jdbc batch insert
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
         tickets.forEach(ticketDAO::save);
     }
@@ -82,11 +78,10 @@ public class BookingServiceImpl implements BookingService {
     public Set<Long> getAllAvailableSeatsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
         Set<Ticket> tickets = getPurchasedTicketsForEvent(event, dateTime);
         Auditorium auditorium = event.getAuditoriums().get(dateTime);
-        Set<Long> availableSeats = LongStream.range(1, auditorium.getNumberOfSeats() + 1)
+        return LongStream.range(1, auditorium.getNumberOfSeats() + 1)
                 .filter(seat -> tickets.stream().noneMatch(ticket -> ticket.getSeat() == seat))
                 .boxed()
                 .collect(Collectors.toSet());
-        return availableSeats;
     }
 
     @Override

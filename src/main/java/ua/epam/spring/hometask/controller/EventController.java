@@ -28,6 +28,8 @@ import java.util.Set;
 @Controller
 @RequestMapping(value = "/events")
 public class EventController {
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+    public static final String REDIRECT_TO_EVENTS_URL = "redirect:/events";
 
     private EventService eventService;
     private BookingFacade bookingFacade;
@@ -52,8 +54,7 @@ public class EventController {
 
     @GetMapping(value = "/{id}/date/{datetime}")
     public String getEventByIdAndDate(ModelMap modelMap, @PathVariable("id") long id, @PathVariable("datetime") String dateTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        LocalDateTime eventTime = LocalDateTime.parse(dateTime, formatter);
+        LocalDateTime eventTime = LocalDateTime.parse(dateTime, FORMATTER);
         Event event = eventService.getById(id);
         Auditorium auditorium = event.getAuditoriums().get(eventTime);
         Set<Long> allAvailableSeats = bookingFacade.getAllAvailableSeatsForEvent(event, eventTime);
@@ -67,8 +68,7 @@ public class EventController {
 
     @GetMapping(value = "/{id}/date/{datetime}/visual")
     public String getEventByIdAndDateVisual(ModelMap modelMap, @PathVariable("id") long id, @PathVariable("datetime") String dateTime) throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        LocalDateTime eventTime = LocalDateTime.parse(dateTime, formatter);
+        LocalDateTime eventTime = LocalDateTime.parse(dateTime, FORMATTER);
         Event event = eventService.getById(id);
         Auditorium auditorium = event.getAuditoriums().get(eventTime);
         AuditoriumDTO auditoriumDTO = auditoriumService.getWithPurchasedSeats(auditorium, bookingFacade.getPurchasedTicketsForEvent(event, eventTime));
@@ -81,28 +81,27 @@ public class EventController {
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String addNewEvent(Event event){
         eventService.save(event);
-        return "redirect:/events";
+        return REDIRECT_TO_EVENTS_URL;
     }
 
     @PostMapping(value = "/date/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String addDateToEvent(@RequestParam("eventTime") String eventTimeString,
                                  @RequestParam("auditorium") String auditoriumName,
                                  @RequestParam("eventId") Long eventId) throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        LocalDateTime eventTime = LocalDateTime.parse(eventTimeString, formatter);
+        LocalDateTime eventTime = LocalDateTime.parse(eventTimeString, FORMATTER);
 
         Event event = eventService.getById(eventId);
         Auditorium auditorium = auditoriumService.getByName(auditoriumName);
         event.addAirDateTime(eventTime, auditorium);
         eventService.save(event);
-        return "redirect:/events";
+        return REDIRECT_TO_EVENTS_URL;
     }
 
     //Post is used here because of the occured problems with DELETE method(409 code after redirect to /users)
     @PostMapping(value = "/delete/{id}")
     public String deleteById(@PathVariable("id") long id){
         eventService.remove(eventService.getById(id));
-        return "redirect:/events";
+        return REDIRECT_TO_EVENTS_URL;
     }
 
     //Post is used here because of the occured problems with DELETE method(409 code after redirect to /users)
@@ -121,7 +120,7 @@ public class EventController {
             TypeFactory typeFactory = objectMapper.getTypeFactory();
             List<Event> eventList = objectMapper.readValue(file.getBytes(), typeFactory.constructCollectionType(List.class, Event.class));
             eventList.forEach(event -> eventService.save(event));
-            return "redirect:/events";
+            return REDIRECT_TO_EVENTS_URL;
         }
         return "redirect:/error";
     }

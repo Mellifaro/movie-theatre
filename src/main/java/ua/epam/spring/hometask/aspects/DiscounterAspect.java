@@ -13,7 +13,7 @@ import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.TotalDiscountInfo;
 import ua.epam.spring.hometask.domain.UserDiscountInfo;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,7 +41,7 @@ public class DiscounterAspect {
                     UserDiscountInfo userDiscountInfo = userDiscountInfoDAO.getByUserId(userId).orElse(new UserDiscountInfo(userId));
                     Map<DiscountType, Integer> discounts = userDiscountInfo.getDiscountMap();
                     if(discounts == null){
-                        discounts = new HashMap<>();
+                        discounts = new EnumMap<>(DiscountType.class);
                     }
                     Integer amount = discounts.get(discountType) == null ? 0 : discounts.get(discountType);
                     discounts.put(discountType, ++amount);

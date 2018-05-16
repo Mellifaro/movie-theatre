@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
         User user = userDAO.getUserByEmail(email).orElseThrow(() -> new NotFoundException("User with email: " + email + " is not found"));
         return new AuthorizedUser(user);
     }

@@ -17,7 +17,7 @@ public class TicketConverter {
     private ConcurrentHashMap<Long, Event> eventMap = new ConcurrentHashMap<>();
 
     private EventService eventService;
-    private DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @Autowired
     public TicketConverter(EventService eventService) {

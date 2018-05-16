@@ -24,12 +24,12 @@ public class PdfTicketMessageConverter<T> extends AbstractHttpMessageConverter<T
     }
 
     @Override
-    protected T readInternal(Class<? extends T> clazz, HttpInputMessage inputMessage) throws HttpMessageNotReadableException {
+    protected T readInternal(Class<? extends T> clazz, HttpInputMessage inputMessage){
         return null;
     }
 
     @Override
-    protected void writeInternal(T t, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+    protected void writeInternal(T t, HttpOutputMessage outputMessage) throws IOException {
         outputMessage.getHeaders().setContentType(MediaType.APPLICATION_PDF);
 
         OutputStream os = outputMessage.getBody();
