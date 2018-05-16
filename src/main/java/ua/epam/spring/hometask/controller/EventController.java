@@ -3,6 +3,7 @@ package ua.epam.spring.hometask.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -97,16 +98,14 @@ public class EventController {
         return REDIRECT_TO_EVENTS_URL;
     }
 
-    //Post is used here because of the occured problems with DELETE method(409 code after redirect to /users)
-    @PostMapping(value = "/delete/{id}")
-    public String deleteById(@PathVariable("id") long id){
+    @DeleteMapping(value = "/delete/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteById(@PathVariable("id") long id){
         eventService.remove(eventService.getById(id));
-        return REDIRECT_TO_EVENTS_URL;
     }
 
-    //Post is used here because of the occured problems with DELETE method(409 code after redirect to /users)
-    @PostMapping(value = "/date/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
+    @DeleteMapping(value = "/date/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
     public void deleteDateForEvent(@RequestBody RemoveDateDTO removeDateDTO){
         Event event = eventService.getById(removeDateDTO.getEventId());
         event.removeAirDateTime(removeDateDTO.getEventTime());

@@ -154,7 +154,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="basePrice" class="control-label col-xs-3">Title</label>
+                                <label for="basePrice" class="control-label col-xs-3">Base price</label>
                                 <div class="col-xs-9">
                                     <input type="number" step="0.01" class="form-control" id="basePrice" name="basePrice" placeholder="0.00">
                                 </div>

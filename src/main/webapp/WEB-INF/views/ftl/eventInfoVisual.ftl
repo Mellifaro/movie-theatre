@@ -69,6 +69,7 @@
             <div align="right" id="event-info" class="event-info">
                 <p><span id="eventId" class="hidden">${event.id}</span>Movie: <strong>${event.name}</strong></p>
                 <p>Date: <strong><span id="datetime">${eventTime}</span></strong></p>
+                <p>Base price: <strong><span id="datetime">${event.basePrice} UAH</span></strong></p>
             </div>
             <div id="back-href" class="back-href">
                 <a href="<@spring.url '/events/${event.id}/date/${eventTime}'/>">Simple interface</a>

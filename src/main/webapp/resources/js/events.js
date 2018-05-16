@@ -13,7 +13,6 @@ $(function(){
     onClickAddEvent();
     onRemoveButton();
     onAddButton();
-    onClickAddDate();
 });
 
 function onClickRegister() {
