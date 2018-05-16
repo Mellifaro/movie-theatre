@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.controller.rest;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ua.epam.spring.hometask.domain.Event;
@@ -14,6 +15,7 @@ public class EventRestController {
 
     private EventService eventService;
 
+    @Autowired
     public EventRestController(EventService eventService) {
         this.eventService = eventService;
     }
@@ -24,7 +26,7 @@ public class EventRestController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Event getUserById(@PathVariable("id") Long id){
+    public Event getEventById(@PathVariable("id") Long id){
         return eventService.getById(id);
     }
 

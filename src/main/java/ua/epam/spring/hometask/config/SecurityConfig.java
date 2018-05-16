@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String EVENT_URL = "/events";
 
-    @Autowired
     private UserDetailsService userDetailsService;
 
     @Override
@@ -69,5 +68,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder(4);
+    }
+
+    public UserDetailsService getUserDetailsService() {
+        return userDetailsService;
+    }
+
+    @Autowired
+    public void setUserDetailsService(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 }

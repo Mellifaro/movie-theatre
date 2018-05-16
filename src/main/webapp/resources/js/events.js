@@ -1,7 +1,8 @@
-const deleteIconActive = "/movie/resources/images/delete-active.svg";
-const deleteIconNotActive = "/movie/resources/images/delete-notactive.svg";
-const addIconActive = "/movie/resources/images/add-active.svg";
-const addIconNotActive = "/movie/resources/images/add-notactive.svg";
+const contextUrl = "/movie";
+const deleteIconActive = contextUrl + "/resources/images/delete-active.svg";
+const deleteIconNotActive = contextUrl + "/resources/images/delete-notactive.svg";
+const addIconActive = contextUrl + "/resources/images/add-active.svg";
+const addIconNotActive = contextUrl + "/resources/images/add-notactive.svg";
 const deleteURL = "events/delete/";
 const deleteDateURL = "events/date/delete";
 
@@ -30,7 +31,7 @@ function onRemoveButton() {
             console.log(id);
             $.ajax({
                 url: deleteURL + id,
-                method: 'POST',
+                method: 'DELETE',
                 success: function () {
                     location.reload();
                 }
@@ -47,16 +48,10 @@ function onRemoveButton() {
 
 function onAddButton() {
     $(".add-icon").on({
-        "click" : function () {
-            // let id = $(this).closest('tr').find('td.id').html();
-            // console.log(id);
-            // $.ajax({
-            //     url: deleteURL + id,
-            //     method: 'POST',
-            //     success: function () {
-            //         location.reload();
-            //     }
-            // });
+        "click" : function() {
+            $('#addDate').modal('show');
+            let eventId = $(this).closest('tr').find('td.id').html();
+            $("#eventId").val(eventId);
         },
         "mouseover" : function() {
             this.src = addIconActive;
@@ -71,16 +66,6 @@ function onClickAddEvent(){
     $("#createEvent").on({
         "click" : function() {
             $('#addEvent').modal('show');
-        }
-    });
-}
-
-function onClickAddDate(){
-    $(".add-icon").on({
-        "click" : function() {
-            $('#addDate').modal('show');
-            let eventId = $(this).closest('tr').find('td.id').html();
-            $("#eventId").val(eventId);
         }
     });
 }

@@ -28,6 +28,7 @@ public class UserRestController {
     public User getUserById(@PathVariable("id") Long id){
         return userService.getById(id);
     }
+
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveUser(@RequestBody User user){
         userService.save(user);

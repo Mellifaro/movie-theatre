@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class BookingController {
     }
 
     @PostMapping(value = "/event/{eventId}/datetime/{dateTime}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String bookTicketsFormForm(ModelMap modelMap, @RequestParam String seats, @PathVariable("eventId") Long eventId, @PathVariable("dateTime") String dateTime){
+    public String bookTicketsFromForm(ModelMap modelMap, @RequestParam String seats, @PathVariable("eventId") Long eventId, @PathVariable("dateTime") String dateTime){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime eventTime = LocalDateTime.parse(dateTime, formatter);
         Event event = eventService.getById(eventId);
@@ -49,22 +50,17 @@ public class BookingController {
         User updatedUser = userService.getUserByEmail(user.getEmail());
         userDetails.setBalance(updatedUser.getBalance());
         modelMap.put("user", updatedUser);
-
         return "redirect:/tickets";
     }
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String bookTicketsFromJson(@RequestBody BookingInfoDTO bookingInfo){
+    @ResponseStatus(value = HttpStatus.OK)
+    public void bookTicketsFromJson(@RequestBody BookingInfoDTO bookingInfo){
         Event event = eventService.getById(bookingInfo.getEventId());
         AuthorizedUser userDetails = (AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByEmail(userDetails.getUsername());
         bookingFacade.bookTickets(event, bookingInfo.getDateTime(), user, bookingInfo.getSeats());
-
         User updatedUser = userService.getUserByEmail(user.getEmail());
         userDetails.setBalance(updatedUser.getBalance());
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.getModelMap().put("user", updatedUser);
-        return "redirect:/tickets";
     }
 }
